@@ -49,5 +49,16 @@ struct rectangle {
 
 typedef struct rectangle GRectangle;
 
+struct list {
+    GCircle *circle;
+    GText *text;
+    GLine *line;
+    GRectangle *rectangle;
+    struct list *next;
+};
+
+typedef struct list List;
+
+GCircle *buildCircle(FILE *arq);
 
 #endif
