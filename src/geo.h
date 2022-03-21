@@ -3,10 +3,10 @@
 #include <stdlib.h>
 
 struct circle {
-    char id;
-    float x;
-    float y;
-    float radius;
+    int id;
+    double x;
+    double y;
+    double radius;
     char *corp;
     char *corb;
 };
@@ -42,9 +42,8 @@ struct rectangle {
     float y;
     float width;
     float height;
-    float radius;
-    char *corp;
     char *corb;
+    char *corp;
 };
 
 typedef struct rectangle GRectangle;
@@ -59,6 +58,7 @@ struct list {
 
 typedef struct list List;
 
-GCircle *buildCircle(FILE *arq);
+void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr);
+GCircle *createGCircleEmpty();
 
 #endif
