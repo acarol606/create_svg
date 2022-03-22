@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include "geo.h"
+#include "list.h"
 
 void buildGeometricForm(FILE *arq) {
 
     GCircle *circle = calloc(1, sizeof(GCircle*));
     GRectangle *rectangle = calloc(1, sizeof(GRectangle*));
+    List *list = createList();
+    List *newList;
 
     while(!feof(arq)) {
 
@@ -15,39 +18,52 @@ void buildGeometricForm(FILE *arq) {
 
         
         if (infos[0] == 'c' && infos[1] == NULL) {
+            newList = createList();
 
-            printf("Type: %s\n", infos);    
 
             buildCircle(arq, circle, infos, eptr);
 
+            /* printf("Type: %c\n", circle->type);    
             printf("Id: %d\n", circle->id);
             printf("Pos X: %.2lf\n", circle->x);
             printf("Pos Y: %.2lf\n", circle->y);
             printf("Radius: %.2lf\n", circle->radius);
             printf("Border color: %s\n", circle->corb);
-            printf("Fill color: %s\n", circle->corp);
+            printf("Fill color: %s\n", circle->corp); */
+            insertCircle(list, newList, circle);
+            
+            list = newList;
 
         } else if(infos[0] == 'r' && infos[1] == NULL) {
 
-            printf("Type: %s\n", infos);    
+            newList = createList();
 
             buildRectangle(arq, rectangle, infos, eptr);
             
+            /* printf("Type: %c\n", rectangle->type);    
             printf("Id: %d\n", rectangle->id);
             printf("Pos X: %.2lf\n", rectangle->x);
             printf("Pos Y: %.2lf\n", rectangle->y);
             printf("Width: %.2lf\n", rectangle->width);
             printf("Height: %.2lf\n", rectangle->height);
             printf("Border color: %s\n", rectangle->corb);
-            printf("Fill color: %s\n", rectangle->corp);
+            printf("Fill color: %s\n", rectangle->corp); */
+
+            insertRectangle(list, newList, rectangle);
             
+            list = newList;
            
         }
-        printf("*****************************************************\n");
+
+      free(newList);
     }
+
+    //printList(newList);
 }
 
 void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) {
+
+      rectangle->type = infos[0];
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
@@ -81,6 +97,8 @@ void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) 
 }
 
 void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
+
+    circle->type = infos[0];
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);

@@ -1,8 +1,11 @@
 #ifndef GEO_H
 #define GEO_H
+
 #include <stdlib.h>
+#include <stdio.h>
 
 struct circle {
+    char type;
     int id;
     double x;
     double y;
@@ -14,7 +17,8 @@ struct circle {
 typedef struct circle GCircle;
 
 struct text {
-    char id;
+    char type;
+    int id;
     float x;
     float y;
     char anchor;
@@ -26,7 +30,8 @@ struct text {
 typedef struct text GText;
 
 struct line {
-    char id;
+    char type;
+    int id;
     float initX;
     float initY;
     float finalX;
@@ -37,7 +42,8 @@ struct line {
 typedef struct line GLine;
 
 struct rectangle {
-    char id;
+    char type;
+    int id;
     float x;
     float y;
     float width;
@@ -47,16 +53,6 @@ struct rectangle {
 };
 
 typedef struct rectangle GRectangle;
-
-struct list {
-    GCircle *circle;
-    GText *text;
-    GLine *line;
-    GRectangle *rectangle;
-    struct list *next;
-};
-
-typedef struct list List;
 
 void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr);
 GCircle *createGCircleEmpty();
