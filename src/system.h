@@ -1,17 +1,9 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-struct parameters {
-    char *outputDir;
-    char *inputDir;
-    char *nameGeoFile;
-    char *nameQryFile;
-};
-
-typedef struct parameters Parameters;
+typedef void* Parameters;
 
 Parameters *createParameters();
-
-Parameters *setParameters(int argc, char** argv, Parameters *param);
+char *makePathGeoFile(Parameters *p);
 
 #endif

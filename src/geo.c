@@ -1,67 +1,58 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include "geo.h"
 #include "list.h"
 
-void buildGeometricForm(FILE *arq) {
+struct circle {
+    char type;
+    int id;
+    double x;
+    double y;
+    double radius;
+    char *corp;
+    char *corb;
+};
 
-    GCircle *circle = calloc(1, sizeof(GCircle*));
-    GRectangle *rectangle = calloc(1, sizeof(GRectangle*));
-    List *list = createList();
-    List *newList;
+struct text {
+    char type;
+    int id;
+    float x;
+    float y;
+    char anchor;
+    char *corp;
+    char *corb;
+    char *text;
+};
 
-    while(!feof(arq)) {
+struct line {
+    char type;
+    int id;
+    float initX;
+    float initY;
+    float finalX;
+    float finalY;
+    char *color;
+};
 
-        char infos[10];
-        char *eptr;
-        fscanf(arq, "%s", infos);
+struct rectangle {
+    char type;
+    int id;
+    float x;
+    float y;
+    float width;
+    float height;
+    char *corb;
+    char *corp;
+};
 
-        
-        if (infos[0] == 'c' && infos[1] == NULL) {
-            newList = createList();
+typedef struct circle GCircle;
+typedef struct text GText;
+typedef struct line GLine;
+typedef struct rectangle GRectangle;
 
+Item *buildRectangle(FILE *arq, char infos[], char *eptr) {
 
-            buildCircle(arq, circle, infos, eptr);
-
-            /* printf("Type: %c\n", circle->type);    
-            printf("Id: %d\n", circle->id);
-            printf("Pos X: %.2lf\n", circle->x);
-            printf("Pos Y: %.2lf\n", circle->y);
-            printf("Radius: %.2lf\n", circle->radius);
-            printf("Border color: %s\n", circle->corb);
-            printf("Fill color: %s\n", circle->corp); */
-            insertCircle(list, newList, circle);
-            
-            list = newList;
-
-        } else if(infos[0] == 'r' && infos[1] == NULL) {
-
-            newList = createList();
-
-            buildRectangle(arq, rectangle, infos, eptr);
-            
-            /* printf("Type: %c\n", rectangle->type);    
-            printf("Id: %d\n", rectangle->id);
-            printf("Pos X: %.2lf\n", rectangle->x);
-            printf("Pos Y: %.2lf\n", rectangle->y);
-            printf("Width: %.2lf\n", rectangle->width);
-            printf("Height: %.2lf\n", rectangle->height);
-            printf("Border color: %s\n", rectangle->corb);
-            printf("Fill color: %s\n", rectangle->corp); */
-
-            insertRectangle(list, newList, rectangle);
-            
-            list = newList;
-           
-        }
-
-      free(newList);
-    }
-
-    //printList(newList);
-}
-
-void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) {
+      GRectangle *rectangle = calloc(1, sizeof(GRectangle*));
 
       rectangle->type = infos[0];
 
@@ -94,9 +85,13 @@ void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) 
       rectangle->corp = infos;
 
       strcpy(infos, "");
+
+      return rectangle;
 }
 
-void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
+Item *buildCircle(FILE *arq, char infos[], char *eptr) {
+
+    GCircle *circle = calloc(1, sizeof(GCircle*));
 
     circle->type = infos[0];
 
@@ -125,4 +120,27 @@ void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
     circle->corp = infos;
 
     strcpy(infos, "");
+
+    return circle;
+}
+
+List *buildGeometricForms(FILE *arq) {
+    List *list = createList();
+
+    while(!feof(arq)) {
+        char infos[10];
+        char *eptr;
+        fscanf(arq, "%s", infos);
+
+         if (infos[0] == 'c' && infos[1] == NULL) {
+             Item *item = buildCircle(arq, infos, eptr);
+
+             list = insertItem(list, item);
+         } else if(infos[0] == 'r' && infos[1] == NULL) {
+             Item *item = buildRectangle(arq, infos, eptr);
+
+             list = insertItem(list, item);
+         }
+    }
+
 }

@@ -4,6 +4,7 @@
 #include "files.h"
 
 FILE *loadFile(char path[]) {
+    printf("%s\n", path);
     FILE *arq = fopen(path, "r");
     if(arq == NULL) {
         printf("Problemas na criação do arquivo!\n");
@@ -13,6 +14,7 @@ FILE *loadFile(char path[]) {
 }
 
 char *buildFilePath(char *directory, char *fileName) {
+    printf("Dir: %s - fileName: %s\n", directory, fileName);
     char separator[] = "/";
     char *result = malloc(strlen(directory)+strlen(fileName)+1);
 

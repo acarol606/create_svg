@@ -6,18 +6,13 @@
 
 void main(int argc, char **argv) {
 
-    Parameters *param = createParameters();
+    Parameters *param = (Parameters*) createParameters(argc, argv);
 
-    param = setParameters(argc, argv, param);
-
-    char *pathGeo = buildFilePath(param->inputDir, param->nameGeoFile);
+    char *pathGeo = makePathGeoFile(param);
 
     FILE *geoFile = loadFile(pathGeo);
 
     if (geoFile == NULL) {
         return;
     }
-
-    buildGeometricForm(geoFile);
-
 }

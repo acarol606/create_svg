@@ -9,7 +9,7 @@ clear:
 $(PROJECT_NAME): main.o system.o files.o geo.o list.o
 	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o -o $(PROJECT_NAME)
 
-geo.o: list.c list.h
+list.o: list.c list.h
 	$(EXEC) $(CFLAGS) -c list.c
 
 geo.o: geo.c geo.h list.h

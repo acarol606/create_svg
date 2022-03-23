@@ -1,81 +1,54 @@
-#include "list.h"
-#include "geo.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include "list.h"
+
+struct data {
+    Item value;
+    struct data *next;
+    struct data *prev;
+};
+typedef struct data Data;
+
+
+struct list {
+    struct Data *init;
+    struct Data *final;
+};
+typedef struct list ListL;
 
 List *createList() {
-    List *list = (List *) malloc(1*sizeof(List*));
-    list->circle = NULL;
-    list->rectangle = NULL;
-    list->text = NULL;
-    list->line = NULL;
-    list->next = NULL;
-    list->prev = NULL;
+
+    ListL *list = (ListL *) malloc(1*sizeof(ListL*));
+    list->init = NULL;
+    list->final = NULL;
     return list;
 }
 
-void insertCircle(List *oldList, List *newTop, GCircle *circle) {
+List *insertItem(List *list, Item item) {
+    ListL *localList = (ListL*) list;
+    Data *data = (Data*) item;
 
-    newTop->circle = circle;
-    newTop->next = NULL;
-    newTop->prev = oldList;
+    if(localList->init == NULL) { // Valida se a lista está vazia, caso estiver o item passado será o inicio
+        localList->init = data;
+        localList->final = NULL;
 
-    oldList->next = newTop;
-}
+    } else if (localList->final == NULL) { // Valida se o final da lista está preenchido, caso não preencher com o item que está passando por parâmetro
+        data->prev = localList->init;
+        data->next = NULL;
+        
+        localList->final = data;
 
-void insertRectangle(List *oldList, List *newTop, GRectangle *rectangle) {
+    } else { // Caso a lista já tenha inicio e fim, adiciona o novo item no final da lista
+        Data *prev = localList->final;
 
-    newTop->rectangle = rectangle;
-    newTop->next = NULL;
-    newTop->prev = oldList;
+        prev->next = data;
 
-    oldList->next = newTop;
-}
+        data->prev = prev;
+        data->next = NULL;
 
-void insertText(List *oldList, List *newTop, GText *text) {
+        localList->final = data;
 
-    newTop->text = text;
-    newTop->next = NULL;
-    newTop->prev = oldList;
-
-    oldList->next = newTop;
-}
-
-void insertLine(List *oldList, List *newTop, GLine *line) {
-
-    newTop->line = line;
-    newTop->next = NULL;
-    newTop->prev = oldList;
-
-    oldList->next = newTop;
-}
-
-void printList(List *list) {
-
-    printf("\n");
-    while(list!=NULL) {
-        if(list->circle != NULL) {
-
-            printf("Type: %c\n", list->circle->type);    
-            printf("Id: %d\n", list->circle->id);
-            printf("Pos X: %.2lf\n", list->circle->x);
-            printf("Pos Y: %.2lf\n", list->circle->y);
-            printf("Radius: %.2lf\n", list->circle->radius);
-            printf("Border color: %s\n", list->circle->corb);
-            printf("Fill color: %s\n", list->circle->corp);
-
-        } else if(list->rectangle != NULL) {
-
-            printf("Type: %c\n", list->rectangle->type);    
-            printf("Id: %d\n", list->rectangle->id);
-            printf("Pos X: %.2lf\n", list->rectangle->x);
-            printf("Pos Y: %.2lf\n", list->rectangle->y);
-            printf("Width: %.2lf\n", list->rectangle->width);
-            printf("Height: %.2lf\n", list->rectangle->height);
-            printf("Border color: %s\n", list->rectangle->corb);
-            printf("Fill color: %s\n", list->rectangle->corp);
-
-        }
-        printf("\n");
-        list=list->next;
     }
+    
+    return localList;
 }
