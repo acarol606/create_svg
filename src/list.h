@@ -7,6 +7,4 @@ typedef void *Item;
 List *createList();
 List *insertItem(List *list, Item item);
 
-void printList(List *list);
-
 #endif

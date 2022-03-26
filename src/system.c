@@ -24,17 +24,16 @@ Parameters *setParameters(int argc, char** argv, ParametersL *param) {
     for(int index=1; index<argc; index++) {
         
         if(!strcmp(argv[index], "-e")) {
-            strcpy(param->inputDir, argv[index+1]);
-            printf("Dir Argument: %s\n",param->inputDir);
+            param->inputDir = argv[index+1];
 
         } else if(!strcmp(argv[index], "-f")) {
-            strcpy(param->nameGeoFile, argv[index+1]);
+            param->nameGeoFile = argv[index+1];
 
         } else if(!strcmp(argv[index], "-q")) {
-            strcpy(param->nameQryFile, argv[index+1]);
+            param->nameQryFile = argv[index+1];
 
         } else if(!strcmp(argv[index], "-o")) {
-            strcpy(param->outputDir, argv[index+1]);
+            param->outputDir = argv[index+1];
 
         }
     }
@@ -47,7 +46,7 @@ Parameters *createParameters(int argc, char** argv) {
     ParametersL *param = malloc(sizeof(ParametersL));
 
     param->outputDir = malloc(sizeof(char*));
-    param->inputDir = malloc(200);
+    param->inputDir = malloc(sizeof(char*)*200);
     param->nameGeoFile = malloc(sizeof(char*));
     param->nameQryFile = malloc(sizeof(char*));
 

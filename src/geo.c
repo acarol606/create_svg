@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+#include "geo.h"
 
 struct circle {
     char type;
@@ -90,57 +90,61 @@ Item *buildRectangle(FILE *arq, char infos[], char *eptr) {
 }
 
 Item *buildCircle(FILE *arq, char infos[], char *eptr) {
+    printf("-- ENTROU buildCircle ---\n");
 
     GCircle *circle = calloc(1, sizeof(GCircle*));
 
     circle->type = infos[0];
+    printf("Type: %c\n", circle->type);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->id = atoi(infos);
+    printf("Id: %d\n", circle->id);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->x = strtod(infos, &eptr);
+    printf("X: %lf\n", circle->x);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->y = strtod(infos, &eptr);
+    printf("Y: %lf\n", circle->y);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->radius = strtod(infos, &eptr);
+    printf("Radius: %lf\n", circle->radius);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->corb = infos;
+    printf("Corb: %s\n", circle->corb);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->corp = infos;
+    printf("Corp: %s\n", circle->corp);
 
     strcpy(infos, "");
+
+    printf("--------------------------------\n");
 
     return circle;
 }
 
-List *buildGeometricForms(FILE *arq) {
-    List *list = createList();
+Item *buildGeometricForm(FILE *arq) {
+    printf("-- ENTROU buildGeometricForm ---\n");
+    char infos[10];
+    char *eptr;
+    fscanf(arq, "%s", infos);
 
-    while(!feof(arq)) {
-        char infos[10];
-        char *eptr;
-        fscanf(arq, "%s", infos);
+    if (infos[0] == 'c' && infos[1] == NULL) {
+        return buildCircle(arq, infos, eptr);
 
-         if (infos[0] == 'c' && infos[1] == NULL) {
-             Item *item = buildCircle(arq, infos, eptr);
+    } else if(infos[0] == 'r' && infos[1] == NULL) {
+        return buildRectangle(arq, infos, eptr);
 
-             list = insertItem(list, item);
-         } else if(infos[0] == 'r' && infos[1] == NULL) {
-             Item *item = buildRectangle(arq, infos, eptr);
-
-             list = insertItem(list, item);
-         }
     }
-
 }
