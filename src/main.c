@@ -15,10 +15,7 @@ void main(int argc, char **argv) {
 
     FILE *geoFile = loadFile(pathGeo);
 
-    while(!feof(geoFile)) {
-        Item *item = buildGeometricForm(geoFile);
-        printf("Foi 1\n");
-    }
+    buildGeometricForm(geoFile, list);
 
     if (geoFile == NULL) {
         return;

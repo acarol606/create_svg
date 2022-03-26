@@ -5,6 +5,6 @@
 #ifndef GEO_H
 #define GEO_H
 
-Item *buildGeometricForm(FILE *arq);
+void buildGeometricForm(FILE *arq, List *list);
 
 #endif

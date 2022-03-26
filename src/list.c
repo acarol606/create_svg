@@ -3,7 +3,7 @@
 #include "list.h"
 
 struct data {
-    Item value;
+    Item *value;
     struct data *next;
     struct data *prev;
 };
@@ -24,7 +24,8 @@ List *createList() {
     return list;
 }
 
-List *insertItem(List *list, Item item) {
+List *insertItem(List *list, Item *item) {
+    printf("--- ENTROU NO INSERT ITEM ---\n");
     ListL *localList = (ListL*) list;
     Data *data = (Data*) item;
 
@@ -41,7 +42,7 @@ List *insertItem(List *list, Item item) {
     } else { // Caso a lista já tenha inicio e fim, adiciona o novo item no final da lista
         Data *prev = localList->final;
 
-        prev->next = data;
+        prev->next->value = data;
 
         data->prev = prev;
         data->next = NULL;
@@ -51,4 +52,15 @@ List *insertItem(List *list, Item item) {
     }
     
     return localList;
+}
+
+void printSizeList(List *list) {
+    printf("--- ENTROU NO PRINT ---\n");
+    ListL *localList = (ListL*) list;
+    Data *data = localList->init;
+
+    while(data != NULL) {
+        printf("%s\n", data);
+        data = data->next;
+    }
 }

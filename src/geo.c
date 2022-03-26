@@ -45,54 +45,67 @@ struct rectangle {
     char *corp;
 };
 
+struct object {
+    Item *value;
+    struct object *next;
+    struct object *prev;
+};
+
+typedef struct object Object;
 typedef struct circle GCircle;
 typedef struct text GText;
 typedef struct line GLine;
 typedef struct rectangle GRectangle;
 
-Item *buildRectangle(FILE *arq, char infos[], char *eptr) {
+void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) {
 
-      GRectangle *rectangle = calloc(1, sizeof(GRectangle*));
+      printf("--- ENTROU buildRectangle ---\n");
 
       rectangle->type = infos[0];
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
+      printf("Type: %c\n", rectangle->type);
       rectangle->id = atoi(infos);
+      printf("Id: %d\n", rectangle->id);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->x = strtod(infos, &eptr);
+      printf("X: %lf\n", rectangle->x);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->y = strtod(infos, &eptr);
+      printf("Y: %lf\n", rectangle->y);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->width = strtod(infos, &eptr);
+      printf("Width: %lf\n", rectangle->width);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->height = strtod(infos, &eptr);
+      printf("Height: %lf\n", rectangle->height);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->corb = infos;
+      printf("Corb: %s\n", rectangle->corb);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->corp = infos;
+      printf("Corp: %s\n", rectangle->corp);
 
       strcpy(infos, "");
 
       return rectangle;
 }
 
-Item *buildCircle(FILE *arq, char infos[], char *eptr) {
-    printf("-- ENTROU buildCircle ---\n");
-
-    GCircle *circle = calloc(1, sizeof(GCircle*));
+void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
+    printf("--- ENTROU buildCircle ---\n");
 
     circle->type = infos[0];
     printf("Type: %c\n", circle->type);
@@ -133,18 +146,42 @@ Item *buildCircle(FILE *arq, char infos[], char *eptr) {
 
     return circle;
 }
+void buildGeometricForm(FILE *arq, List *list) {
+    printf("--- ENTROU buildGeometricForm ---\n");
+    int count = 0;
+    GCircle *circle = (GCircle*) calloc(1, sizeof(GCircle*));
+    GRectangle *rectangle = (GRectangle*) calloc(2, sizeof(GRectangle*));
+    Object *obj = malloc(sizeof(Object*));
+    obj->value = NULL;
+    obj->next = NULL;
+    obj->prev = NULL;
 
-Item *buildGeometricForm(FILE *arq) {
-    printf("-- ENTROU buildGeometricForm ---\n");
-    char infos[10];
-    char *eptr;
-    fscanf(arq, "%s", infos);
+    while(!feof(arq)) {
+        char infos[10];
+        char *eptr;
+        fscanf(arq, "%s", infos);
 
-    if (infos[0] == 'c' && infos[1] == NULL) {
-        return buildCircle(arq, infos, eptr);
+        if (infos[0] == 'c' && infos[1] == NULL) {
+            buildCircle(arq, circle, infos, eptr);
 
-    } else if(infos[0] == 'r' && infos[1] == NULL) {
-        return buildRectangle(arq, infos, eptr);
+            if (obj->value != NULL) {
+                obj = realloc(obj, ++count*sizeof(Object*));
+            } else {
+                obj->value = circle;
+            }
+            list = insertItem(list, obj);
 
+        } else if(infos[0] == 'r' && infos[1] == NULL) {
+            
+            buildRectangle(arq, rectangle, infos, eptr);
+
+            if (obj->value != NULL) {
+                obj = realloc(obj, ++count*sizeof(Object*));
+            } else {
+                obj->value = circle;
+            }
+            list = insertItem(list, obj);
+        }
     }
+    printSizeList(list);
 }
