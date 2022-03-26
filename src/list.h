@@ -4,8 +4,8 @@
 typedef void *List;
 typedef void *Item;
 
-List *createList();
-List *insertItem(List *list, Item *item);
+List createList();
+List *insertItemInFinal(List *list, Item *item);
 void printSizeList(List *list);
 
 #endif

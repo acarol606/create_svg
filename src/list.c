@@ -3,7 +3,7 @@
 #include "list.h"
 
 struct data {
-    Item *value;
+    Item value;
     struct data *next;
     struct data *prev;
 };
@@ -16,7 +16,7 @@ struct list {
 };
 typedef struct list ListL;
 
-List *createList() {
+List createList() {
 
     ListL *list = (ListL *) malloc(1*sizeof(ListL*));
     list->init = NULL;
@@ -24,30 +24,48 @@ List *createList() {
     return list;
 }
 
-List *insertItem(List *list, Item *item) {
+Data *getPreviusData(ListL *list) {
+    Data *data = list->init;
+
+    while(data != NULL) {
+        if (data->next == NULL) {
+            return data;
+        }
+        data = data->next;
+    }
+
+    return data;
+}
+
+List *insertItemInFinal(List *list, Item *item) {
     printf("--- ENTROU NO INSERT ITEM ---\n");
     ListL *localList = (ListL*) list;
-    Data *data = (Data*) item;
+
+    Data *newData = (Data*) malloc(sizeof(Data));
+    newData->next = NULL;
+    newData->prev = NULL;
+    newData->value = item;
 
     if(localList->init == NULL) { // Valida se a lista está vazia, caso estiver o item passado será o inicio
-        localList->init = data;
+        localList->init = newData;
         localList->final = NULL;
 
     } else if (localList->final == NULL) { // Valida se o final da lista está preenchido, caso não preencher com o item que está passando por parâmetro
-        data->prev = localList->init;
-        data->next = NULL;
+        newData->prev = localList->init;
+        newData->next = NULL;
         
-        localList->final = data;
+        localList->final = newData;
 
     } else { // Caso a lista já tenha inicio e fim, adiciona o novo item no final da lista
-        Data *prev = localList->final;
+        
 
-        prev->next->value = data;
+        Data *prevData = getPreviusData(localList);
 
-        data->prev = prev;
-        data->next = NULL;
+        newData->prev = prevData;
 
-        localList->final = data;
+        prevData->next = newData;
+
+        localList->final = newData;
 
     }
     
@@ -60,7 +78,7 @@ void printSizeList(List *list) {
     Data *data = localList->init;
 
     while(data != NULL) {
-        printf("%s\n", data);
+        printf("%p\n", data);
         data = data->next;
     }
 }

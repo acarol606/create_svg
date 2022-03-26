@@ -151,10 +151,6 @@ void buildGeometricForm(FILE *arq, List *list) {
     int count = 0;
     GCircle *circle = (GCircle*) calloc(1, sizeof(GCircle*));
     GRectangle *rectangle = (GRectangle*) calloc(2, sizeof(GRectangle*));
-    Object *obj = malloc(sizeof(Object*));
-    obj->value = NULL;
-    obj->next = NULL;
-    obj->prev = NULL;
 
     while(!feof(arq)) {
         char infos[10];
@@ -162,25 +158,13 @@ void buildGeometricForm(FILE *arq, List *list) {
         fscanf(arq, "%s", infos);
 
         if (infos[0] == 'c' && infos[1] == NULL) {
+            
             buildCircle(arq, circle, infos, eptr);
-
-            if (obj->value != NULL) {
-                obj = realloc(obj, ++count*sizeof(Object*));
-            } else {
-                obj->value = circle;
-            }
-            list = insertItem(list, obj);
-
+            list = insertItemInFinal(list, circle);
         } else if(infos[0] == 'r' && infos[1] == NULL) {
             
             buildRectangle(arq, rectangle, infos, eptr);
-
-            if (obj->value != NULL) {
-                obj = realloc(obj, ++count*sizeof(Object*));
-            } else {
-                obj->value = circle;
-            }
-            list = insertItem(list, obj);
+            list = insertItemInFinal(list, rectangle);
         }
     }
     printSizeList(list);
