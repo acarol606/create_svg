@@ -72,12 +72,12 @@ void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->x = strtod(infos, &eptr);
-      printf("X: %lf\n", rectangle->x);
+      printf("X: %f\n", rectangle->x);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->y = strtod(infos, &eptr);
-      printf("Y: %lf\n", rectangle->y);
+      printf("Y: %f\n", rectangle->y);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
@@ -91,58 +91,82 @@ void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) 
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
-      rectangle->corb = infos;
+      rectangle->corb = (char*) malloc(sizeof(char*)+strlen(infos)+1);
+      strcpy(rectangle->corb, infos);
       printf("Corb: %s\n", rectangle->corb);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
-      rectangle->corp = infos;
+      rectangle->corp = (char*) malloc(sizeof(char*)+strlen(infos)+1);
+      strcpy(rectangle->corp, infos);
       printf("Corp: %s\n", rectangle->corp);
 
       strcpy(infos, "");
 
+      createSVGRectangle(rectangle->corb, rectangle->corp, rectangle->width, rectangle->height, rectangle->y, rectangle->x);
+
+      free(rectangle->corp);
+      free(rectangle->corb);
+
+      rectangle->corp = NULL;
+      rectangle->corb = NULL;
+
+      free(rectangle->corp);
+      free(rectangle->corb);
+      
       return rectangle;
 }
 
 void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
     printf("--- ENTROU buildCircle ---\n");
 
+
     circle->type = infos[0];
-    printf("Type: %c\n", circle->type);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->id = atoi(infos);
-    printf("Id: %d\n", circle->id);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->x = strtod(infos, &eptr);
-    printf("X: %lf\n", circle->x);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->y = strtod(infos, &eptr);
-    printf("Y: %lf\n", circle->y);
 
     strcpy(infos, "");
     fscanf(arq, "%s", infos);
     circle->radius = strtod(infos, &eptr);
+
+    strcpy(infos, "");
+    fscanf(arq, "%s", infos);
+    circle->corb = (char*) malloc(sizeof(char*)+strlen(infos)+1);
+    strcpy(circle->corb, infos);
+
+    strcpy(infos, "");
+    fscanf(arq, "%s", infos);
+    circle->corp = (char*) malloc(sizeof(char*)+strlen(infos)+1);
+    strcpy(circle->corp, infos);
+
+    strcpy(infos, "");
+
+    printf("Type: %c\n", circle->type);
+    printf("Id: %d\n", circle->id);
+    printf("X: %lf\n", circle->x);
+    printf("Y: %lf\n", circle->y);
     printf("Radius: %lf\n", circle->radius);
-
-    strcpy(infos, "");
-    fscanf(arq, "%s", infos);
-    circle->corb = infos;
     printf("Corb: %s\n", circle->corb);
-
-    strcpy(infos, "");
-    fscanf(arq, "%s", infos);
-    circle->corp = infos;
     printf("Corp: %s\n", circle->corp);
 
-    strcpy(infos, "");
+    createSVGCircle(circle->corb, circle->corp, circle->radius, circle->y, circle->x);
 
-    printf("--------------------------------\n");
+    free(circle->corp);
+    free(circle->corb);
+    circle->corp = NULL;
+    circle->corb = NULL;
+    free(circle->corp);
+    free(circle->corb);
 
     return circle;
 }
@@ -151,6 +175,8 @@ void buildGeometricForm(FILE *arq, List *list) {
     int count = 0;
     GCircle *circle = (GCircle*) calloc(1, sizeof(GCircle*));
     GRectangle *rectangle = (GRectangle*) calloc(2, sizeof(GRectangle*));
+
+    insertHeaderSVG();
 
     while(!feof(arq)) {
         char infos[10];
@@ -161,11 +187,13 @@ void buildGeometricForm(FILE *arq, List *list) {
             
             buildCircle(arq, circle, infos, eptr);
             list = insertItemInFinal(list, circle);
+
         } else if(infos[0] == 'r' && infos[1] == NULL) {
             
             buildRectangle(arq, rectangle, infos, eptr);
             list = insertItemInFinal(list, rectangle);
         }
+        printf("--------------------------------\n");
     }
     printSizeList(list);
 }

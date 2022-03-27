@@ -6,13 +6,16 @@ clear:
 	rm *.o
 	rm $(PROJECT_NAME)
 
-$(PROJECT_NAME): main.o system.o files.o geo.o list.o
-	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o -o $(PROJECT_NAME)
+$(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o
+	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o svg.o -o $(PROJECT_NAME)
+
+svg.o: svg.c svg.h
+	$(EXEC) $(CFLAGS) -c svg.c
 
 list.o: list.c list.h
 	$(EXEC) $(CFLAGS) -c list.c
 
-geo.o: geo.c geo.h list.h
+geo.o: geo.c geo.h list.h svg.h
 	$(EXEC) $(CFLAGS) -c geo.c
 
 files.o: files.c files.h
