@@ -105,15 +105,6 @@ void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) 
 
       createSVGRectangle(rectangle->corb, rectangle->corp, rectangle->width, rectangle->height, rectangle->y, rectangle->x);
 
-      free(rectangle->corp);
-      free(rectangle->corb);
-
-      rectangle->corp = NULL;
-      rectangle->corb = NULL;
-
-      free(rectangle->corp);
-      free(rectangle->corb);
-      
       return rectangle;
 }
 
@@ -160,13 +151,6 @@ void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
     printf("Corp: %s\n", circle->corp);
 
     createSVGCircle(circle->corb, circle->corp, circle->radius, circle->y, circle->x);
-
-    free(circle->corp);
-    free(circle->corb);
-    circle->corp = NULL;
-    circle->corb = NULL;
-    free(circle->corp);
-    free(circle->corb);
 
     return circle;
 }
