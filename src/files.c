@@ -32,7 +32,3 @@ char *buildFilePath(char *directory, char *fileName) {
 
     return result;
 }
-
-void closeFile(FILE *file) {
-    fclose(file);
-}

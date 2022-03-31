@@ -26,13 +26,16 @@ List createList() {
 
 Data *getPreviusData(ListL *list) {
     Data *data = list->init;
-
+    int count = 0;
     while(data != NULL) {
+        count++;
         if (data->next == NULL) {
             return data;
         }
         data = data->next;
     }
+
+    printf("\n\n\nContador: %d\n\n\n", count);
 
     return data;
 }

@@ -5,6 +5,7 @@ PROJECT_NAME = ted
 clear: 
 	rm *.o
 	rm $(PROJECT_NAME)
+	cd ..;cd output; rm teste.svg
 
 $(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o
 	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o svg.o -o $(PROJECT_NAME)

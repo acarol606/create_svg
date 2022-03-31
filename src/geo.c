@@ -67,43 +67,42 @@ void buildRectangle(FILE *arq, GRectangle *rectangle, char infos[], char *eptr) 
       fscanf(arq, "%s", infos);
       printf("Type: %c\n", rectangle->type);
       rectangle->id = atoi(infos);
-      printf("Id: %d\n", rectangle->id);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->x = strtod(infos, &eptr);
-      printf("X: %f\n", rectangle->x);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->y = strtod(infos, &eptr);
-      printf("Y: %f\n", rectangle->y);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->width = strtod(infos, &eptr);
-      printf("Width: %lf\n", rectangle->width);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->height = strtod(infos, &eptr);
-      printf("Height: %lf\n", rectangle->height);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->corb = (char*) malloc(sizeof(char*)+strlen(infos)+1);
       strcpy(rectangle->corb, infos);
-      printf("Corb: %s\n", rectangle->corb);
 
       strcpy(infos, "");
       fscanf(arq, "%s", infos);
       rectangle->corp = (char*) malloc(sizeof(char*)+strlen(infos)+1);
       strcpy(rectangle->corp, infos);
-      printf("Corp: %s\n", rectangle->corp);
 
       strcpy(infos, "");
 
-      createSVGRectangle(rectangle->corb, rectangle->corp, rectangle->width, rectangle->height, rectangle->y, rectangle->x);
+      printf("Id: %d\n", rectangle->id);
+      printf("X: %f\n", rectangle->x);
+      printf("Y: %f\n", rectangle->y);
+      printf("Width: %lf\n", rectangle->width);
+      printf("Height: %lf\n", rectangle->height);
+      printf("Corb: %s\n", rectangle->corb);
+      printf("Corp: %s\n", rectangle->corp);
 
       return rectangle;
 }
@@ -150,17 +149,22 @@ void buildCircle(FILE *arq, GCircle *circle, char infos[], char *eptr) {
     printf("Corb: %s\n", circle->corb);
     printf("Corp: %s\n", circle->corp);
 
-    createSVGCircle(circle->corb, circle->corp, circle->radius, circle->y, circle->x);
-
     return circle;
 }
 void buildGeometricForm(FILE *arq, List *list) {
     printf("--- ENTROU buildGeometricForm ---\n");
-    int count = 0;
+    
     GCircle *circle = (GCircle*) calloc(1, sizeof(GCircle*));
     GRectangle *rectangle = (GRectangle*) calloc(2, sizeof(GRectangle*));
 
-    insertHeaderSVG();
+    FILE *svg = fopen("/home/vfsilva/estudo/repositories/project/output/teste.svg", "a");
+    
+    if(svg == NULL) {
+        printf("\n\n\nNão abriu o arquivo!\n\n\n");
+        return;
+    }
+
+    insertHeaderSVG(svg);
 
     while(!feof(arq)) {
         char infos[10];
@@ -172,12 +176,17 @@ void buildGeometricForm(FILE *arq, List *list) {
             buildCircle(arq, circle, infos, eptr);
             list = insertItemInFinal(list, circle);
 
+            createSVGCircle(circle->corb, circle->corp, circle->radius, circle->y, circle->x, svg);
+
         } else if(infos[0] == 'r' && infos[1] == NULL) {
             
             buildRectangle(arq, rectangle, infos, eptr);
             list = insertItemInFinal(list, rectangle);
+            createSVGRectangle(rectangle->corb, rectangle->corp, rectangle->width, rectangle->height, rectangle->y, rectangle->x, svg);
         }
         printf("--------------------------------\n");
     }
     printSizeList(list);
+    insertFooterSVG(svg);
+    fclose(svg);
 }
