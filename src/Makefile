@@ -7,8 +7,8 @@ clear:
 	rm $(PROJECT_NAME)
 	cd ..;cd output; rm teste.svg
 
-$(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o
-	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o svg.o -o $(PROJECT_NAME)
+$(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o
+	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o -o $(PROJECT_NAME)
 
 svg.o: svg.c svg.h
 	$(EXEC) $(CFLAGS) -c svg.c
@@ -16,7 +16,19 @@ svg.o: svg.c svg.h
 list.o: list.c list.h
 	$(EXEC) $(CFLAGS) -c list.c
 
-geo.o: geo.c geo.h list.h svg.h
+circle.o: circle.c circle.h
+	$(EXEC) $(CFLAGS) -c circle.c
+
+rectangle.o: rectangle.c rectangle.h
+	$(EXEC) $(CFLAGS) -c rectangle.c
+
+line.o: line.c line.h
+	$(EXEC) $(CFLAGS) -c line.c
+
+text.o: text.c text.h
+	$(EXEC) $(CFLAGS) -c text.c
+
+geo.o: geo.c geo.h list.h svg.h geo.h circle.h rectangle.h line.h text.h
 	$(EXEC) $(CFLAGS) -c geo.c
 
 files.o: files.c files.h

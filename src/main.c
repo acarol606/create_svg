@@ -9,13 +9,11 @@ void main(int argc, char **argv) {
 
     Parameters *param = (Parameters*) createParameters(argc, argv);
 
-    List *list = createList();
-
     char *pathGeo = makePathGeoFile(param);
 
     FILE *geoFile = loadFile(pathGeo);
 
-    buildGeometricForm(geoFile, list);
+    buildGeometricForm(geoFile);
 
     if (geoFile == NULL) {
         return;

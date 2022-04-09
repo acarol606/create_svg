@@ -76,12 +76,14 @@ List *insertItemInFinal(List *list, Item *item) {
 }
 
 void printSizeList(List *list) {
-    printf("--- ENTROU NO PRINT ---\n");
     ListL *localList = (ListL*) list;
-    Data *data = localList->init;
+    Data *aux = localList->init;
+    int contador = 0;
 
-    while(data != NULL) {
-        printf("%p\n", data);
-        data = data->next;
+    while (aux != NULL){
+        contador++;
+        aux = aux->next;
     }
+    printf("\nLista com %d elementos.\n", contador);
+    free(aux);
 }
