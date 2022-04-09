@@ -10,12 +10,12 @@ typedef void *Text;
 Item buildText(FILE *arq, Text text, char infos[], char *eptr);
 Text createText();
 
-int getIdText(Text *text); 
-char getAnchorText(Text *text);
-double getXText(Text *text);
-double getYText(Text *text);
-char *getValueText(Text *text);
-char *getCorBText(Text *text);
-char *getCorPText(Text *text);
+int getIdText(Text text); 
+char getAnchorText(Text text);
+double getXText(Text text);
+double getYText(Text text);
+char *getValueText(Text text);
+char *getCorBText(Text text);
+char *getCorPText(Text text);
 
 #endif

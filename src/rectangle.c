@@ -7,14 +7,14 @@ struct rectangle {
     float y;
     float width;
     float height;
-    char corb[20];
-    char corp[20];
+    char *corb;
+    char *corp;
 };
 
 typedef struct rectangle GRectangle;
 
 Rectangle createRectangle() {
-    GRectangle *rectangle = calloc(1, sizeof(GRectangle*));
+    GRectangle *rectangle = calloc(1, sizeof(GRectangle));
 
     return rectangle;
 }
@@ -42,10 +42,12 @@ Item buildRectangle(FILE *arq, Rectangle vrectangle, char infos[], char *eptr) {
 
       
       fscanf(arq, "%s", infos);
+      rectangle->corb = (char*) malloc(sizeof(char*)+strlen(infos)+1);
       strcpy(rectangle->corb, infos);
 
       
       fscanf(arq, "%s", infos);
+      rectangle->corp = (char*) malloc(sizeof(char*)+strlen(infos)+1);
       strcpy(rectangle->corp, infos);
 
       

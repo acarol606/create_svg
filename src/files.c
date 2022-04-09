@@ -5,21 +5,7 @@
 
 FILE *loadFile(char path[]) {
     FILE *arq = fopen(path, "r");
-    if(arq == NULL) {
-        printf("Problemas na abertura do arquivo!\n");
-        return NULL;
-    }
     return arq;
-}
-
-FILE *createSVG() {
-    FILE *svg = fopen("/home/vfsilva/estudo/repositories/project/output/teste.svg", "a");
-    if (svg == NULL) {
-        printf("Problemas na criação do arquivo!\n");
-        return NULL;
-    }
-
-    return svg;
 }
 
 char *buildFilePath(char *directory, char *fileName) {

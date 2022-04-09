@@ -7,13 +7,22 @@
 
 void main(int argc, char **argv) {
 
-    Parameters *param = (Parameters*) createParameters(argc, argv);
+    Parameters param = createParameters(argc, argv);
 
     char *pathGeo = makePathGeoFile(param);
 
     FILE *geoFile = loadFile(pathGeo);
+    
+    if(geoFile == NULL) {
+        printf("Problemas na abertura do arquivo!\n");
+        return;
+    }
 
-    buildGeometricForm(geoFile);
+    char *outputDir = getOutputDir(param);
+
+    strcat(outputDir, "/teste.svg");
+
+    buildGeometricForm(geoFile, outputDir);
 
     if (geoFile == NULL) {
         return;

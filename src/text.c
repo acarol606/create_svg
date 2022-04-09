@@ -15,7 +15,7 @@ struct text {
 typedef struct text GText;
 
 Text createText() {
-    GText *text = calloc(1, sizeof(GText*));
+    GText *text = calloc(1, sizeof(GText));
 
     return text;
 }
@@ -66,43 +66,43 @@ Item buildText(FILE *arq, Text vtext, char infos[], char *eptr) {
 
 }
 
-int getIdText(Text *text) {
+int getIdText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->id;
 }
 
-char getAnchorText(Text *text) {
+char getAnchorText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->anchor;
 }
 
-double getXText(Text *text) {
+double getXText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->x;
 }
 
-double getYText(Text *text) {
+double getYText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->y;
 }
 
-char *getValueText(Text *text) {
+char *getValueText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->value;
 }
 
-char *getCorBText(Text *text) {
+char *getCorBText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->corb;
 }
 
-char *getCorPText(Text *text) {
+char *getCorPText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->corp;

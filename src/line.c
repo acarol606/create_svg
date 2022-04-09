@@ -13,7 +13,7 @@ struct line {
 typedef struct line GLine;
 
 Line createLine() {
-    GLine *line = calloc(1, sizeof(GLine*));
+    GLine *line = calloc(1, sizeof(GLine));
 
     return line;
 }

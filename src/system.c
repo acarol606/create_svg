@@ -55,7 +55,13 @@ Parameters *createParameters(int argc, char** argv) {
     return setParameters(argc, argv, param);
 }
 
-char *makePathGeoFile(Parameters *p) {
+char *getOutputDir(Parameters p) {
+    ParametersL *param = (ParametersL*) p;
+
+    return param->outputDir;
+}
+
+char *makePathGeoFile(Parameters p) {
     ParametersL *param = (ParametersL*) p;
     return buildFilePath(param->inputDir, param->nameGeoFile);
 }

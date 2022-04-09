@@ -24,7 +24,6 @@ Item buildCircle(FILE *arq, Circle vcircle, char infos[], char *eptr) {
     circle->id = atoi(infos);
     
     fscanf(arq, "%s", infos);
-    printf("\nTeste: %s \n\n", infos);
     circle->x = strtod(infos, &eptr);
 
     fscanf(arq, "%s", infos);
@@ -55,37 +54,43 @@ Item buildCircle(FILE *arq, Circle vcircle, char infos[], char *eptr) {
     return circle;
 }
 
-int getIdCircle(Circle *circle) {
+int getIdCircle(Circle circle) {
+    // printf("\n--- Entrou getIdCircle ---\n");
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->id;
 }
 
-double getXCircle(Circle *circle) {
+double getXCircle(Circle circle) {
+    // printf("\n--- Entrou getXCircle ---\n");
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->x;
 }
 
-double getYCircle(Circle *circle) {
+double getYCircle(Circle circle) {
+    // printf("\n--- Entrou getYCircle ---\n");
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->y;
 }
 
-double getRadiusCircle(Circle *circle) {
+double getRadiusCircle(Circle circle) {
+    // printf("\n--- Entrou getRadiusCircle ---\n");
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->radius;
 }
 
-char *getCorBCircle(Circle *circle) {
+char *getCorBCircle(Circle circle) {
+    // printf("\n--- Entrou getCorBCircle ---\n");
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->corb;
 }
 
-char *getCorPCircle(Circle *circle) {
+char *getCorPCircle(Circle circle) {
+    // printf("\n--- Entrou getCorPCircle ---\n");
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->corp;

@@ -35,8 +35,6 @@ Data *getPreviusData(ListL *list) {
         data = data->next;
     }
 
-    printf("\n\n\nContador: %d\n\n\n", count);
-
     return data;
 }
 
@@ -73,6 +71,24 @@ List *insertItemInFinal(List *list, Item *item) {
     }
     
     return localList;
+}
+
+Cell getNextCell(Cell cell) {
+    Data *data = (Data*) cell;
+
+    return data->next;
+}
+
+Cell getFirst(List list) {
+    ListL *localList = (ListL*) list;
+
+    return localList->init;
+}
+
+Item getCellValue(Cell cell) {
+    Data *data = (Data*)cell;
+
+    return data->value;
 }
 
 void printSizeList(List *list) {

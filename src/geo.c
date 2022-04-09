@@ -1,14 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "geo.h"
-#include "circle.h"
-#include "rectangle.h"
-#include "line.h"
-#include "text.h"
 
-
-void buildGeometricForm(FILE *arq) {
+void buildGeometricForm(FILE *arq, char *outputDir) {
     printf("--- ENTROU buildGeometricForm ---\n");
     
     List circleList = createList();
@@ -44,15 +36,22 @@ void buildGeometricForm(FILE *arq) {
 
         } else if(infos[0] == 't') {
             Text text = createText();
+
             Item item = buildText(arq, text, infos, eptr);
 
             textList = insertItemInFinal(textList, item);
         }
-        printf("--------------------------------\n");
+        // printf("--------------------------------\n");
     }
 
-    printSizeList(circleList);
+    /* printSizeList(circleList);
     printSizeList(rectangleList);
     printSizeList(lineList);
-    printSizeList(textList);
+    printSizeList(textList); */
+
+    FILE *svgFile = fopen(outputDir, "w");
+
+    buildSVG(svgFile, circleList, rectangleList , lineList, textList);
+
+    free(svgFile);
 }

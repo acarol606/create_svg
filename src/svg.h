@@ -1,12 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
 
 #ifndef SVG_H
 #define SVG_H
+#include <stdio.h>
+#include <stdlib.h>
+#include "list.h"
+#include "circle.h"
+#include "rectangle.h"
+#include "line.h"
+#include "text.h"
 
-void insertHeaderSVG(FILE *svg);
-void insertFooterSVG(FILE *svg);
-void createSVGCircle(char *corb, char *corp, double radius, double y, double x, FILE *svg);
-void createSVGRectangle(char *corb, char *corp, double width, double height, float y, float x, FILE *svg);
- 
+void buildSVG(FILE *svgFile, List circle, List rectangle ,List line , List text);
+
 #endif
