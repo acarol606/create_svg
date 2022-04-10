@@ -18,7 +18,7 @@ typedef struct list ListL;
 
 List createList() {
 
-    ListL *list = (ListL *) malloc(1*sizeof(ListL*));
+    ListL *list = (ListL *) malloc(1*sizeof(ListL));
     list->init = NULL;
     list->final = NULL;
     return list;

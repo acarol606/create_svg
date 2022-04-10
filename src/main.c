@@ -20,8 +20,6 @@ void main(int argc, char **argv) {
 
     char *outputDir = getOutputDir(param);
 
-    strcat(outputDir, "/teste.svg");
-
     buildGeometricForm(geoFile, outputDir);
 
     if (geoFile == NULL) {

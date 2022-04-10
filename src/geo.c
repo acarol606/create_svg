@@ -2,7 +2,6 @@
 
 void buildGeometricForm(FILE *arq, char *outputDir) {
     printf("--- ENTROU buildGeometricForm ---\n");
-    
     List circleList = createList();
     List rectangleList = createList();
     List lineList = createList();
@@ -12,7 +11,6 @@ void buildGeometricForm(FILE *arq, char *outputDir) {
         char infos[10];
         char *eptr;
         fscanf(arq, "%s", infos);
-
         if (infos[0] == 'c') {
             Circle circle = createCircle();
 

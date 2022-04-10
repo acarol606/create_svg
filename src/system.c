@@ -6,6 +6,8 @@
 #include "system.h"
 #include "files.h"
 
+#define TAM_EXTENTION 3
+
 struct parameters {
     char *outputDir;
     char *inputDir;
@@ -58,10 +60,28 @@ Parameters *createParameters(int argc, char** argv) {
 char *getOutputDir(Parameters p) {
     ParametersL *param = (ParametersL*) p;
 
+    if(endsWith(param->outputDir) == 0) {
+        return param->outputDir;
+    }
+    
+    char *nameSVG;
+    memcpy(nameSVG, param->nameGeoFile, strlen(param->nameGeoFile)-TAM_EXTENTION);
+    strcat(param->outputDir, "/");
+    strncat(param->outputDir, nameSVG, strlen(param->nameGeoFile)-TAM_EXTENTION);
+    strcat(param->outputDir, "svg");
     return param->outputDir;
 }
 
 char *makePathGeoFile(Parameters p) {
     ParametersL *param = (ParametersL*) p;
     return buildFilePath(param->inputDir, param->nameGeoFile);
+}
+
+int endsWith(char *string) {
+  string = strrchr(string, '.');
+
+  if(string != NULL) {
+    return (strcmp(string, ".svg"));
+  }
+  return -1;
 }
