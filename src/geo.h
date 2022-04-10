@@ -10,6 +10,6 @@
 #include "text.h"
 #include "svg.h"
 
-void buildGeometricForm(FILE *arq, char *outputDir);
+int buildGeometricForm(FILE *arq, char *outputDir);
 
 #endif

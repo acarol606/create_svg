@@ -7,14 +7,20 @@ clear:
 	rm $(PROJECT_NAME)
 	cd ..;cd output; rm *.svg
 
-$(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o
-	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o -o $(PROJECT_NAME)
+$(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o queue.o qry.o
+	$(EXEC) $(CFLAGS) main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o queue.o qry.o -o $(PROJECT_NAME)
 
 svg.o: svg.c svg.h
 	$(EXEC) $(CFLAGS) -c svg.c
 
 list.o: list.c list.h
 	$(EXEC) $(CFLAGS) -c list.c
+
+queue.o: queue.c queue.h list.h
+	$(EXEC) $(CFLAGS) -c queue.c
+
+qry.o: qry.c qry.h queue.h
+	$(EXEC) $(CFLAGS) -c qry.c
 
 circle.o: circle.c circle.h
 	$(EXEC) $(CFLAGS) -c circle.c

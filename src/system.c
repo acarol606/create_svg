@@ -63,7 +63,7 @@ char *getOutputDir(Parameters p) {
     if(endsWith(param->outputDir) == 0) {
         return param->outputDir;
     }
-    
+
     char *nameSVG;
     memcpy(nameSVG, param->nameGeoFile, strlen(param->nameGeoFile)-TAM_EXTENTION);
     strcat(param->outputDir, "/");
@@ -75,6 +75,11 @@ char *getOutputDir(Parameters p) {
 char *makePathGeoFile(Parameters p) {
     ParametersL *param = (ParametersL*) p;
     return buildFilePath(param->inputDir, param->nameGeoFile);
+}
+
+char *makePathQryFile(Parameters p) {
+    ParametersL *param = (ParametersL*) p;
+    return buildFilePath(param->inputDir, param->nameQryFile);
 }
 
 int endsWith(char *string) {

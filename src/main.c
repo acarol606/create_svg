@@ -4,6 +4,7 @@
 #include "system.h"
 #include "files.h"
 #include "list.h"
+#include "qry.h"
 
 void main(int argc, char **argv) {
 
@@ -20,7 +21,14 @@ void main(int argc, char **argv) {
 
     char *outputDir = getOutputDir(param);
 
-    buildGeometricForm(geoFile, outputDir);
+    int sizePolygon = buildGeometricForm(geoFile, outputDir);
+
+
+    char *pathQry = makePathQryFile(param);
+
+    FILE *qryFile = loadFile(pathQry);
+
+    queryCommands(qryFile, sizePolygon);
 
     if (geoFile == NULL) {
         return;
