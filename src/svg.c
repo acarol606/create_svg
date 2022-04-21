@@ -103,6 +103,11 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
     fflush(svg);
 }
 
+void insertSVGAnchor(double x, double y, FILE *svg) {
+    fprintf(svg, "\n\t<circle cx=\"%d\" cy=\"%d\" r=\"4\" stroke-width=\"3\" fill=\"red\" />", x, y);
+    fflush(svg);
+}
+
 void insertFooterSVG(FILE *svg) {
     printf("--- Entrou no closeSVG ---\n\n");
     fprintf(svg, "\n</svg>");

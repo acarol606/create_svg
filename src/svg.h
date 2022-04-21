@@ -10,5 +10,6 @@
 #include "text.h"
 
 void buildSVG(FILE *svgFile, List circle, List rectangle ,List line , List text);
+void insertSVGAnchor(double x, double y, FILE *svg);
 
 #endif

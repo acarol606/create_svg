@@ -2,6 +2,9 @@ EXEC = gcc
 CFLAGS = -std=c99 -fstack-protector-all -g
 PROJECT_NAME = ted
 
+run: 
+	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f cas.geo -o /home/vfsilva/estudo/repositories/project/output -q q.qry
+
 clear: 
 	rm *.o
 	rm $(PROJECT_NAME)
@@ -19,7 +22,7 @@ list.o: list.c list.h
 queue.o: queue.c queue.h list.h
 	$(EXEC) $(CFLAGS) -c queue.c
 
-qry.o: qry.c qry.h queue.h
+qry.o: qry.c qry.h queue.h circle.h rectangle.h line.h text.h svg.h
 	$(EXEC) $(CFLAGS) -c qry.c
 
 circle.o: circle.c circle.h
@@ -34,7 +37,7 @@ line.o: line.c line.h
 text.o: text.c text.h
 	$(EXEC) $(CFLAGS) -c text.c
 
-geo.o: geo.c geo.h list.h svg.h geo.h circle.h rectangle.h line.h text.h
+geo.o: geo.c geo.h list.h svg.h circle.h rectangle.h line.h text.h
 	$(EXEC) $(CFLAGS) -c geo.c
 
 files.o: files.c files.h

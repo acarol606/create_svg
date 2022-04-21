@@ -8,6 +8,11 @@
 
 void main(int argc, char **argv) {
 
+    List circleList = createList();
+    List rectangleList = createList();
+    List lineList = createList();
+    List textList = createList();
+
     Parameters param = createParameters(argc, argv);
 
     char *pathGeo = makePathGeoFile(param);
@@ -21,16 +26,13 @@ void main(int argc, char **argv) {
 
     char *outputDir = getOutputDir(param);
 
-    int sizePolygon = buildGeometricForm(geoFile, outputDir);
+    FILE *svgFile = fopen(outputDir, "w");
 
+    int sizePolygon = buildGeometricForm(geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
 
     char *pathQry = makePathQryFile(param);
 
     FILE *qryFile = loadFile(pathQry);
 
-    queryCommands(qryFile, sizePolygon);
-
-    if (geoFile == NULL) {
-        return;
-    }
+    queryCommands(qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
 }

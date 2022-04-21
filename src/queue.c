@@ -12,10 +12,11 @@ struct queue {
 typedef struct queue LQueue;
 
 Queue createQueue(int capacity) { 
+	printf("-- Entrou createQueue --\n");
     LQueue *q = calloc(1, sizeof(LQueue));
 
 	q->capacity = capacity;
-	q->data = malloc(sizeof(int) * q->capacity);
+	q->data = malloc(sizeof(int) * capacity);
 	q->first = 0;
 	q->last = -1;
 	q->totalItems = 0; 
@@ -23,31 +24,47 @@ Queue createQueue(int capacity) {
     return q;
 }
 
-bool insertQueue(Queue queue, int value) {
+bool hasNext(Queue queue, int index) {
+	LQueue *q = (LQueue*) queue;
+
+	if(q->totalItems==index) {
+		return false;
+	}
+
+	return true;
+}
+
+int getData(Queue queue, int index) {
+	LQueue *q = (LQueue*) queue;
+
+	return q->data[index];
+}
+
+void insertQueue(Queue queue, int value) {
     LQueue *q = (LQueue*) queue;
 
 	if(queueIsFull(q)) {
-        return false;
+		printf("Fila está cheia!");
+        return;
     }
 
 	q->last++;
 	q->data[q->last] = value; // incrementa ultimo e insere
 	q->totalItems++; // mais um item inserido
-
-    return true;
 }
 
-bool queueRemove(Queue queue) { // pega o item do comeÃ§o da fila
+void queueRemove(Queue queue) { // pega o item do comeÃ§o da fila
     LQueue *q = (LQueue*) queue;
 	LQueue *temp = q->data[q->first++]; // pega o valor e incrementa o primeiro
 
-	if(queueIsEmpty(q)) {
-		return false;
-    }
-
 	q->totalItems--;  // um item retirado
-	return true;
+}
 
+void clearQueue(Queue queue) {
+	LQueue *q = (LQueue*) queue;
+
+	free(q->data); // limpa dados da fila
+	q->totalItems = 0;
 }
 
 bool queueIsEmpty(Queue queue) { // retorna verdadeiro se a fila estÃ¡ vazia

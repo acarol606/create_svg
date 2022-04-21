@@ -20,36 +20,38 @@ Text createText() {
     return text;
 }
 
-Item buildText(FILE *arq, Text vtext, char infos[], char *eptr) {
+Item buildText(FILE *arq, Text vtext) {
     printf("--- ENTROU buildText ---\n");
 
     GText *text = (GText*) vtext;
 
-    fscanf(arq, "%s", infos);
-    text->id = atoi(infos);
+    int idAux;
+    char *corb;
+    char *corp;
+    char *value;
+
+    fscanf(arq, "%d", &idAux);
     
-    fscanf(arq, "%s", infos);
-    text->x = strtod(infos, &eptr);
+    fscanf(arq, "%lf", &text->x);
 
-    fscanf(arq, "%s", infos);
-    text->y = strtod(infos, &eptr);
+    fscanf(arq, "%s", &text->y);
 
-    fscanf(arq, "%s", infos);
-    text->corb = (char*) malloc(sizeof(char*)+strlen(infos)+1);
-    strcpy(text->corb, infos);
+    fscanf(arq, "%s", corb);
+    text->corb = (char*) malloc(sizeof(char*)+strlen(corb)+1);
+    strcpy(text->corb, corb);
 
-    fscanf(arq, "%s", infos);
-    text->corp = (char*) malloc(sizeof(char*)+strlen(infos)+1);
-    strcpy(text->corp, infos);
+    fscanf(arq, "%s", corp);
+    text->corp = (char*) malloc(sizeof(char*)+strlen(corp)+1);
+    strcpy(text->corp, corp);
     
-    fscanf(arq, "%s", infos);
-    text->anchor = infos[0];
+    fscanf(arq, "%c", &text->anchor);
 
-    fscanf(arq, "%s", infos);
-    text->value = (char*) malloc(sizeof(char*)+strlen(infos)+1);
-    strcpy(text->value, infos);
+    fscanf(arq, "%s", value);
+    text->value = (char*) malloc(sizeof(char*)+strlen(value)+1);
+    strcpy(text->value, value);
 
     
+    text->id = idAux;
 
     printf("Id: %d\n", text->id);
     printf("X: %lf\n", text->x);

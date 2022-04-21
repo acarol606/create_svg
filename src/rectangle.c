@@ -19,38 +19,36 @@ Rectangle createRectangle() {
     return rectangle;
 }
 
-Item buildRectangle(FILE *arq, Rectangle vrectangle, char infos[], char *eptr) {
+Item buildRectangle(FILE *arq, Rectangle vrectangle) {
       printf("--- ENTROU buildRectangle ---\n");
 
       GRectangle *rectangle = (GRectangle*) vrectangle;
 
-      fscanf(arq, "%s", infos);
-      rectangle->id = atoi(infos);
-      
-      fscanf(arq, "%s", infos);
-      rectangle->x = strtod(infos, &eptr);
+      int idAux;
+      char *corb;
+      char *corp;
 
-      fscanf(arq, "%s", infos);
-      rectangle->y = strtod(infos, &eptr);
+      fscanf(arq, "%d", &idAux);
       
-      fscanf(arq, "%s", infos);
-      rectangle->width = strtod(infos, &eptr);
+      fscanf(arq, "%lf", &rectangle->x);
 
+      fscanf(arq, "%lf", &rectangle->y);
       
-      fscanf(arq, "%s", infos);
-      rectangle->height = strtod(infos, &eptr);
-
+      fscanf(arq, "%lf", &rectangle->width);
       
-      fscanf(arq, "%s", infos);
-      rectangle->corb = (char*) malloc(sizeof(char*)+strlen(infos)+1);
-      strcpy(rectangle->corb, infos);
+      fscanf(arq, "%lf", &rectangle->height);
+      
+      fscanf(arq, "%s", corb);
+      rectangle->corb = (char*) malloc(sizeof(char*)+strlen(corb)+1);
+      strcpy(rectangle->corb, corb);
 
       
-      fscanf(arq, "%s", infos);
-      rectangle->corp = (char*) malloc(sizeof(char*)+strlen(infos)+1);
-      strcpy(rectangle->corp, infos);
+      fscanf(arq, "%s", corp);
+      rectangle->corp = (char*) malloc(sizeof(char*)+strlen(corp)+1);
+      strcpy(rectangle->corp, corp);
 
       
+      rectangle->id = idAux;
 
       printf("Id: %d\n", rectangle->id);
       printf("X: %f\n", rectangle->x);

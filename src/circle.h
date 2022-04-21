@@ -7,7 +7,7 @@
 
 typedef void *Circle;
 
-Item buildCircle(FILE *arq, Circle circle, char infos[], char *eptr);
+Item buildCircle(FILE *arq, Circle circle);
 Circle createCircle();
 
 int getIdCircle(Circle circle); 

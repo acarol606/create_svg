@@ -1,48 +1,41 @@
 #include "geo.h"
 
-int buildGeometricForm(FILE *arq, char *outputDir) {
+int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- ENTROU buildGeometricForm ---\n");
-    List circleList = createList();
-    List rectangleList = createList();
-    List lineList = createList();
-    List textList = createList();
-
     while(!feof(arq)) {
-        char infos[10];
+        char infos;
         char *eptr;
-        fscanf(arq, "%s", infos);
-        if (infos[0] == 'c') {
+        fscanf(arq, "%c", &infos);
+        if (infos == 'c') {
             Circle circle = createCircle();
 
-            Item item = buildCircle(arq, circle, infos, eptr);
+            Item item = buildCircle(arq, circle);
 
             circleList = insertItemInFinal(circleList, item);
 
-        } else if(infos[0] == 'r') {
+        } else if(infos == 'r') {
             Rectangle rectangle = createRectangle();
 
-            Item item = buildRectangle(arq, rectangle, infos, eptr);
+            Item item = buildRectangle(arq, rectangle);
             
             rectangleList = insertItemInFinal(rectangleList, item);
             
-        } else if(infos[0] == 'l') {
+        } else if(infos == 'l') {
             Line line = createLine();
 
-            Item item = buildLine(arq, line, infos, eptr);
+            Item item = buildLine(arq, line);
 
             lineList = insertItemInFinal(lineList, item);
 
-        } else if(infos[0] == 't') {
+        } else if(infos == 't') {
             Text text = createText();
 
-            Item item = buildText(arq, text, infos, eptr);
+            Item item = buildText(arq, text);
 
             textList = insertItemInFinal(textList, item);
         }
         // printf("--------------------------------\n");
     }
-
-    FILE *svgFile = fopen(outputDir, "w");
 
     buildSVG(svgFile, circleList, rectangleList , lineList, textList);
 

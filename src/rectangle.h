@@ -7,7 +7,7 @@
 
 typedef void *Rectangle;
 
-Item buildRectangle(FILE *arq, Rectangle rectangle, char infos[], char *eptr);
+Item buildRectangle(FILE *arq, Rectangle rectangle);
 Rectangle createRectangle();
 
 int getIdRectangle(Rectangle *rectangle);

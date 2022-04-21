@@ -7,7 +7,7 @@
 
 typedef void *Line;
 
-Item buildLine(FILE *arq, Line line, char infos[], char *eptr);
+Item buildLine(FILE *arq, Line line);
 Line createLine();
 
 int getIdLine(Line *line);

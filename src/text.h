@@ -7,7 +7,7 @@
 
 typedef void *Text;
 
-Item buildText(FILE *arq, Text text, char infos[], char *eptr);
+Item buildText(FILE *arq, Text text);
 Text createText();
 
 int getIdText(Text text); 
