@@ -20,48 +20,56 @@ Text createText() {
     return text;
 }
 
-Item buildText(FILE *arq, Text vtext) {
-    printf("--- ENTROU buildText ---\n");
+Item buildText(char *command, Text vtext) {
+    printf("--- ENTROU buildText --- command: %s\n", command);
 
     GText *text = (GText*) vtext;
 
-    int idAux;
-    char *corb;
-    char *corp;
-    char *value;
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
+    char *eptr;
 
-    fscanf(arq, "%d", &idAux);
-    
-    fscanf(arq, "%lf", &text->x);
-
-    fscanf(arq, "%s", &text->y);
-
-    fscanf(arq, "%s", corb);
-    text->corb = (char*) malloc(sizeof(char*)+strlen(corb)+1);
-    strcpy(text->corb, corb);
-
-    fscanf(arq, "%s", corp);
-    text->corp = (char*) malloc(sizeof(char*)+strlen(corp)+1);
-    strcpy(text->corp, corp);
-    
-    fscanf(arq, "%c", &text->anchor);
-
-    fscanf(arq, "%s", value);
-    text->value = (char*) malloc(sizeof(char*)+strlen(value)+1);
-    strcpy(text->value, value);
-
-    
-    text->id = idAux;
-
+    text->id = atoi(ptr);
+    ptr = strtok(NULL, " ");
     printf("Id: %d\n", text->id);
+    
+    text->x = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
     printf("X: %lf\n", text->x);
+
+    text->y = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
+
+    text->corb = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(text->corb, ptr);
+    ptr = strtok(NULL, " ");
+
+    text->corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(text->corp, ptr);
+    ptr = strtok(NULL, " ");
+    
+    text->anchor = ptr[0];
+    ptr = strtok(NULL, " ");
+
+    text->value = (char*) malloc(sizeof(char*)+ 20*10);
+    strcpy(text->value, ptr);
+
+    while(ptr != NULL) {
+        strcat(text->value, " ");
+        strcat(text->value, ptr);
+        ptr = strtok(NULL, " ");
+    }
+
+   /* 
     printf("Y: %lf\n", text->y);
     printf("Corb: %s\n", text->corb);
     printf("Corp: %s\n", text->corp);
     printf("Ancora: %c\n", text->anchor);
     printf("Valor: %s\n", text->value);
 
-    printf("--- FIM buildText ---\n");
+    printf("--- FIM buildText ---\n"); 
+    
+    */
 
 
     return text;

@@ -15,41 +15,42 @@ Circle createCircle() {
     return circle;
 }
 
-Item buildCircle(FILE *arq, Circle vcircle) {
+Item buildCircle(char *command, Circle vcircle) {
     printf("--- ENTROU buildCircle ---\n");
+
+    char *ptr = strtok(command, " ");
+
+    char *eptr;
 
     GCircle *circle = (GCircle*) vcircle;
 
-    int idAux;
-    char *corb;
-    char *corp;
-
-    fscanf(arq, "%d", &idAux);
+    circle->id = atoi(ptr);
+    ptr = strtok(NULL, " ");
     
-    fscanf(arq, "%lf", &circle->x);
+    circle->x = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(arq, "%lf", &circle->y);
+    circle->y = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
     
-    fscanf(arq, "%lf", &circle->radius);
+    circle->radius = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(arq, "%s", corb);
-    circle->corb = (char*) malloc(sizeof(char*)+strlen(corb)+1);
-    strcpy(circle->corb, corb);
+    circle->corb = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(circle->corb, ptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(arq, "%s", corp);
-    circle->corp = (char*) malloc(sizeof(char*)+strlen(corp)+1);
-    strcpy(circle->corp, corp);
+    circle->corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(circle->corp, ptr);
 
-    circle->id = idAux;
-
-    printf("Id: %d\n", circle->id);
+    /* printf("Id: %d\n", circle->id);
     printf("X: %lf\n", circle->x);
     printf("Y: %lf\n", circle->y);
     printf("Radius: %lf\n", circle->radius);
     printf("Corb: %s\n", circle->corb);
     printf("Corp: %s\n", circle->corp);
 
-    printf("--- FIM buildCircle ---\n");
+    printf("--- FIM buildCircle ---\n"); */
 
     return circle;
 }

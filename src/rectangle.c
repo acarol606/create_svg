@@ -19,48 +19,47 @@ Rectangle createRectangle() {
     return rectangle;
 }
 
-Item buildRectangle(FILE *arq, Rectangle vrectangle) {
-      printf("--- ENTROU buildRectangle ---\n");
+Item buildRectangle(char *command, Rectangle vrectangle) {
+    printf("--- ENTROU buildRectangle ---\n");
 
-      GRectangle *rectangle = (GRectangle*) vrectangle;
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
 
-      int idAux;
-      char *corb;
-      char *corp;
+    char *eptr;
+    GRectangle *rectangle = (GRectangle*) vrectangle;
 
-      fscanf(arq, "%d", &idAux);
-      
-      fscanf(arq, "%lf", &rectangle->x);
+    rectangle->id = atoi(ptr);
+    ptr = strtok(NULL, " ");
+    
+    rectangle->x = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-      fscanf(arq, "%lf", &rectangle->y);
-      
-      fscanf(arq, "%lf", &rectangle->width);
-      
-      fscanf(arq, "%lf", &rectangle->height);
-      
-      fscanf(arq, "%s", corb);
-      rectangle->corb = (char*) malloc(sizeof(char*)+strlen(corb)+1);
-      strcpy(rectangle->corb, corb);
+    rectangle->y = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-      
-      fscanf(arq, "%s", corp);
-      rectangle->corp = (char*) malloc(sizeof(char*)+strlen(corp)+1);
-      strcpy(rectangle->corp, corp);
+    rectangle->width = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-      
-      rectangle->id = idAux;
+    rectangle->height = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-      printf("Id: %d\n", rectangle->id);
-      printf("X: %f\n", rectangle->x);
-      printf("Y: %f\n", rectangle->y);
-      printf("Width: %lf\n", rectangle->width);
-      printf("Height: %lf\n", rectangle->height);
-      printf("Corb: %s\n", rectangle->corb);
-      printf("Corp: %s\n", rectangle->corp);
+    rectangle->corb = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(rectangle->corb, ptr);
 
-      printf("--- FIM buildRectangle ---\n");
+    rectangle->corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(rectangle->corp, ptr);
 
-      return rectangle;
+    /* printf("Id: %d\n", rectangle->id);
+    printf("X: %f\n", rectangle->x);
+    printf("Y: %f\n", rectangle->y);
+    printf("Width: %lf\n", rectangle->width);
+    printf("Height: %lf\n", rectangle->height);
+    printf("Corb: %s\n", rectangle->corb);
+    printf("Corp: %s\n", rectangle->corp);
+
+    printf("--- FIM buildRectangle ---\n"); */
+
+    return rectangle;
 }
 
 

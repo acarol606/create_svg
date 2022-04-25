@@ -1,12 +1,20 @@
 #include "qry.h"
 
+double stringToDouble(char *str) {
+    char *eptr;
+    printf("String: %s\n\n", str);
+    return strtod(str, &eptr);
+}
+
 void inp(FILE *qryFile, char *command, Queue queue) {
     printf("--- INICIO INP ---\n");
+
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
+
     int id;
 
-    fscanf(qryFile, "%s", command);
-    printf("%s\n", command);
-    id = atoi(command);
+    id = atoi(ptr);
 
     insertQueue(queue, id);
 }
@@ -31,7 +39,7 @@ void clp(Queue queue) {
 
     clearQueue(queue);
 }
-
+/* 
 void sel(FILE *qryFile, char *command, Queue queue, char *eptr, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     int index = 0;
     double x;
@@ -40,16 +48,16 @@ void sel(FILE *qryFile, char *command, Queue queue, char *eptr, List circleList,
     double height;
 
     fscanf(qryFile, "%s", command);
-    x = strtod(command, eptr);
+    x = stringToDouble(command);
 
     fscanf(qryFile, "%s", command);
-    y = strtod(command, eptr);
+    y = stringToDouble(command);
 
     fscanf(qryFile, "%s", command);
-    width = strtod(command, eptr);
+    width = stringToDouble(command);
 
     fscanf(qryFile, "%s", command);
-    height = strtod(command, eptr);
+    height = stringToDouble(command);
 
     while(hasNext(queue, index)) {
         int id = getData(queue, index);
@@ -108,34 +116,45 @@ void sel(FILE *qryFile, char *command, Queue queue, char *eptr, List circleList,
         index++;
     }
 }
-
-void pol(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *qryFile) {
+ */
+void pol(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- Entrou pol ---\n");
+
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
 
     int id;
     double distance;
     double density;
     char *corb;
     char *corp;
+    char *eptr;
 
-    fscanf(qryFile, "%d", &id);
-    fscanf(qryFile, "%lf", &distance);
-    fscanf(qryFile, "%lf", &density);
+    id = atoi(ptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(qryFile, "%s", command);
-    corb = (char*) malloc(sizeof(char*)+strlen(command)+1);
-    strcpy(corb, command);
+    distance = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(qryFile, "%s", command);
-    corp = (char*) malloc(sizeof(char*)+strlen(command)+1);
-    strcpy(corp, command);
+    density = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
+
+    corb = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(corb, ptr);
+    ptr = strtok(NULL, " ");
+
+    corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(corp, ptr);
 
     printf("Id: %d\n", id);
-    printf("distance: %ls\n", distance);
-    printf("density: %ls\n", density);
+    printf("distance: %lf\n", distance);
+    printf("density: %lf\n", density);
     printf("corb: %s\n", corb);
     printf("corp: %s\n\n", corp);
+
+    makeAnchor(queue, circleList, rectangleList, lineList, textList, svgFile);
 }
+
 
 
 bool createArchor(int id, int idItem, double x, double y, FILE *svgFile) {
@@ -146,7 +165,8 @@ bool createArchor(int id, int idItem, double x, double y, FILE *svgFile) {
     return false;
 }
 
-void makePolygon(Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+void makeAnchor(Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+    printf("--- Entrou makeAnchor ---\n\n");
     int index = 0;
 
     while(hasNext(queue, index)) {
@@ -165,7 +185,6 @@ void makePolygon(Queue queue, List circleList, List rectangleList, List lineList
             double y = getYCircle(circle);
 
             if(!createArchor(id, idCircle, x, y, svgFile)) {
-
                 circleCell = getNextCell(circleCell);
             } else {
                 break;
@@ -228,17 +247,25 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
 
     Queue queue = createQueue(capacity);
 
-	printf("-- Saiu createQueue --\n");
+    char str[200];
+    char idCommand[200];
 
     while(!feof(qryFile)) {
         char *command;
-         
-        fscanf(qryFile, "%s", command);
+        fgets(str, 200, qryFile);
 
-        if(strcmp(command, "inp")==0) {
-            inp(qryFile, command, queue);
+        strcpy(idCommand, str);
 
-        }
+        char *ptr = strtok(idCommand, " ");
+
+        if(strcmp(ptr, "inp")==0) {
+            inp(qryFile, str, queue);
+
+        } else if(strcmp(ptr, "pol")==0) {
+            printf("Line: %s\n\n", str);
+            pol(str, queue, circleList, rectangleList, lineList, textList, svgFile);
+
+        } 
     }
     /* 
         char *eptr;

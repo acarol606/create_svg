@@ -74,8 +74,6 @@ void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
 
         textCell = getNextCell(textCell);
     }
-
-    insertFooterSVG(svgFile);
 }
 
 void insertHeaderSVG(FILE *svg) {
@@ -104,7 +102,8 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
 }
 
 void insertSVGAnchor(double x, double y, FILE *svg) {
-    fprintf(svg, "\n\t<circle cx=\"%d\" cy=\"%d\" r=\"4\" stroke-width=\"3\" fill=\"red\" />", x, y);
+    printf("--- Entrou insertSVGAnchor ---\n\n");
+    fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"4\" stroke-width=\"3\" fill=\"red\" />", x, y);
     fflush(svg);
 }
 

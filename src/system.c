@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-
 #include "system.h"
-#include "files.h"
 
 #define TAM_EXTENTION 3
 
@@ -53,7 +47,6 @@ Parameters *createParameters(int argc, char** argv) {
     param->nameQryFile = malloc(sizeof(char*));
 
     strcpy(param->inputDir, getcwd(NULL, 0));
-
     return setParameters(argc, argv, param);
 }
 
@@ -64,12 +57,27 @@ char *getOutputDir(Parameters p) {
         return param->outputDir;
     }
 
-    char *nameSVG;
-    memcpy(nameSVG, param->nameGeoFile, strlen(param->nameGeoFile)-TAM_EXTENTION);
-    strcat(param->outputDir, "/");
-    strncat(param->outputDir, nameSVG, strlen(param->nameGeoFile)-TAM_EXTENTION);
-    strcat(param->outputDir, "svg");
-    return param->outputDir;
+    char *relativePath = malloc(strlen(param->outputDir)+TAM_EXTENTION+1);
+    strcpy(relativePath, param->outputDir);
+    
+    char *nameSVG = malloc(strlen(param->nameGeoFile));
+    strcpy(nameSVG, param->nameGeoFile);
+    int len = strlen(param->nameGeoFile);
+    int i;
+
+    for(i=1; i<=TAM_EXTENTION; i++) {
+        nameSVG[len-i] = '\0';
+    }
+    
+    printf("*********************nameSVG: %s\n\n", nameSVG);
+    strncpy(nameSVG, param->nameGeoFile, len-TAM_EXTENTION);
+    strcat(relativePath, "/");
+    strcat(relativePath, nameSVG);
+    strcat(relativePath, "svg");
+    printf("Outputdir: %s\n\n", relativePath);
+
+
+    return relativePath;
 }
 
 char *makePathGeoFile(Parameters p) {
@@ -80,6 +88,11 @@ char *makePathGeoFile(Parameters p) {
 char *makePathQryFile(Parameters p) {
     ParametersL *param = (ParametersL*) p;
     return buildFilePath(param->inputDir, param->nameQryFile);
+}
+
+char *getQryName(Parameters p) {
+    ParametersL *param = (ParametersL*) p;
+    return param->nameQryFile;
 }
 
 int endsWith(char *string) {

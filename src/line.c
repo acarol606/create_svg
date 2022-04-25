@@ -18,34 +18,34 @@ Line createLine() {
     return line;
 }
 
-Item buildLine(FILE *arq, Line vline) {
+Item buildLine(char *command, Line vline) {
     printf("--- ENTROU buildLine ---\n");
 
-    char *color;
-    int idAux;
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
+
+    char *eptr;
 
     GLine *line = (GLine*) vline;
     
-    fscanf(arq, "%d", &idAux);
-    line->id = &idAux;
+    line->id = atoi(ptr);
+    ptr = strtok(NULL, " ");
     
-    fscanf(arq, "%lf", &line->initX);
-    // line->initX = strtod(infos, &eptr);
+    line->initX = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(arq, "%lf", &line->initY);
-    // line->initY = strtod(infos, &eptr);
+    line->initY = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
     
-    fscanf(arq, "%lf", &line->finalX);
-    // line->finalX = strtod(infos, &eptr);
+    line->finalX = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(arq, "%lf", &line->finalY);
-    // line->finalY = strtod(infos, &eptr);
+    line->finalY = strtod(ptr, &eptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(arq, "%s", color);
-    line->color = (char*) malloc(sizeof(char*)+strlen(color)+1);
-    strcpy(line->color, color);
+    line->color = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(line->color, ptr);
     
-    line->id = idAux;
     printf("Id: %d\n", line->id);
     printf("initX: %.2lf\n", line->initX);
     printf("initY: %.2lf\n", line->initY);

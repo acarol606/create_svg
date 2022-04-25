@@ -7,7 +7,7 @@
 
 typedef void *Line;
 
-Item buildLine(FILE *arq, Line line);
+Item buildLine(char *command, Line line);
 Line createLine();
 
 int getIdLine(Line *line);

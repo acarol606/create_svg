@@ -3,7 +3,8 @@ CFLAGS = -std=c99 -fstack-protector-all -g
 PROJECT_NAME = ted
 
 run: 
-	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f cas.geo -o /home/vfsilva/estudo/repositories/project/output -q q.qry
+	clear
+	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f hin.geo -o /home/vfsilva/estudo/repositories/project/output -q qry.qry
 
 clear: 
 	rm *.o

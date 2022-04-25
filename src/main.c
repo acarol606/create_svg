@@ -24,15 +24,33 @@ void main(int argc, char **argv) {
         return;
     }
 
+    char *teste = getQryName(param);
+
     char *outputDir = getOutputDir(param);
+
+    printf("Qry name main: %s\n\n", outputDir);
 
     FILE *svgFile = fopen(outputDir, "w");
 
+    if(svgFile == NULL) {
+        printf("Arquivo nulo!\n\n");
+        return 0;
+    }
+    
     int sizePolygon = buildGeometricForm(geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
 
     char *pathQry = makePathQryFile(param);
 
+    printf("Path file: %s\n\n", pathQry);
+
     FILE *qryFile = loadFile(pathQry);
 
+    if(qryFile == NULL) {
+        printf("Arquivo nulo!\n\n");
+        return 0;
+    }
+
     queryCommands(qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
+
+    insertFooterSVG(svgFile);
 }
