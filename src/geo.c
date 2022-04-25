@@ -8,7 +8,7 @@ int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectang
     int count = 0;
     while(!feof(arq)) {
 
-        fgets(str, 200, arq);
+        if(fgets(str, 200, arq) == NULL) break;
 
         strcpy(idGeo, str);
 

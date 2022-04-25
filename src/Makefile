@@ -4,7 +4,7 @@ PROJECT_NAME = ted
 
 run: 
 	clear
-	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f casa-campo.geo -o /home/vfsilva/estudo/repositories/project/output -q 006ups.qry
+	valgrind -s ./$(PROJECT_NAME) -e /home/util/Desktop/projeto1/create_svg/input -f casa-campo.geo -o /home/util/Desktop/projeto1/create_svg/output -q 006ups.qry
 
 clear: 
 	rm *.o

@@ -75,7 +75,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
 
     generateSelection(x, y, width, height, svgFile);
     
-   /*  while(hasNext(queue, index)) {
+     while(hasNext(queue, index)) {
         int id = getData(queue, index);
 
         Cell circleCell = getFirst(circleList);
@@ -130,7 +130,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
         }
         
         index++;
-    } */
+    } 
 }
 
 void pol(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
@@ -268,7 +268,7 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
 
     while(!feof(qryFile)) {
         char *command;
-        fgets(str, 200, qryFile);
+        if(fgets(str, 200, qryFile)== NULL) break; 
 
         strcpy(idCommand, str);
 

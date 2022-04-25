@@ -82,6 +82,10 @@ char *getOutputDir(Parameters p) {
 
 char *makePathGeoFile(Parameters p) {
     ParametersL *param = (ParametersL*) p;
+    //printf("\n\nin: %s, name: %s\n\n", param->inputDir, param->nameGeoFile);
+    getchar();
+    printf("\n\nin: %s\n\n", param->nameGeoFile);
+
     return buildFilePath(param->inputDir, param->nameGeoFile);
 }
 

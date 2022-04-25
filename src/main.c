@@ -6,22 +6,25 @@
 #include "list.h"
 #include "qry.h"
 
-void main(int argc, char **argv) {
+int main(int argc, char **argv) {
 
     List circleList = createList();
     List rectangleList = createList();
     List lineList = createList();
     List textList = createList();
+    
+    
 
     Parameters param = createParameters(argc, argv);
-
+    printf("param: %p\n\n", param);
+    getchar();
     char *pathGeo = makePathGeoFile(param);
-
+    printf("\n\npath: %s\n\n", pathGeo);
     FILE *geoFile = loadFile(pathGeo);
     
     if(geoFile == NULL) {
-        printf("Problemas na abertura do arquivo!\n");
-        return;
+        printf("1Problemas na abertura do arquivo!\n");
+        return 0;
     }
 
     char *teste = getQryName(param);
