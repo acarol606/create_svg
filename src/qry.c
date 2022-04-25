@@ -6,6 +6,13 @@ double stringToDouble(char *str) {
     return strtod(str, &eptr);
 }
 
+void generateSelection(double x, double y, double width, double height, FILE *svgFile) {
+    createSVGLine(9999, x, y, x, x+height, "red", svgFile);
+    createSVGLine(9999, x, y, y+width, y, "red", svgFile);
+    createSVGLine(9999, y+width, y, y+width, x+height, "red", svgFile);
+    createSVGLine(9999, x, x+height, y+width, x+height, "red", svgFile);
+}
+
 void inp(FILE *qryFile, char *command, Queue queue) {
     printf("--- INICIO INP ---\n");
 
@@ -39,27 +46,36 @@ void clp(Queue queue) {
 
     clearQueue(queue);
 }
-/* 
-void sel(FILE *qryFile, char *command, Queue queue, char *eptr, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+
+void sel(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     int index = 0;
     double x;
     double y;
     double width;
     double height;
 
-    fscanf(qryFile, "%s", command);
-    x = stringToDouble(command);
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
 
-    fscanf(qryFile, "%s", command);
-    y = stringToDouble(command);
+    x = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(qryFile, "%s", command);
-    width = stringToDouble(command);
+    y = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
 
-    fscanf(qryFile, "%s", command);
-    height = stringToDouble(command);
+    width = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
 
-    while(hasNext(queue, index)) {
+    height = stringToDouble(ptr);
+
+    printf("X: %lf\n", x);
+    printf("Y: %lf\n", y);
+    printf("Width: %lf\n", width);
+    printf("Height: %lf\n", height);
+
+    generateSelection(x, y, width, height, svgFile);
+    
+   /*  while(hasNext(queue, index)) {
         int id = getData(queue, index);
 
         Cell circleCell = getFirst(circleList);
@@ -114,9 +130,9 @@ void sel(FILE *qryFile, char *command, Queue queue, char *eptr, List circleList,
         }
         
         index++;
-    }
+    } */
 }
- */
+
 void pol(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- Entrou pol ---\n");
 
@@ -262,8 +278,11 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
             inp(qryFile, str, queue);
 
         } else if(strcmp(ptr, "pol")==0) {
-            printf("Line: %s\n\n", str);
             pol(str, queue, circleList, rectangleList, lineList, textList, svgFile);
+
+        } else if(strcmp(ptr, "sel")==0) {
+            printf("Sel command: %s", str);
+            sel(str, queue, circleList, rectangleList, lineList, textList, svgFile);
 
         } 
     }
@@ -282,10 +301,7 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
         } else if(strcmp(command, "pol")==0) {
             clp(queue);
 
-        } else if(strcmp(command, "sel")==0) {
-            sel(qryFile, command, queue, eptr, circleList, rectangleList, lineList, textList, svgFile);
-
-        } 
+        }
     } */
 
     // makePolygon(queue, circleList, rectangleList, lineList, textList, svgFile);

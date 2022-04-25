@@ -4,7 +4,7 @@ PROJECT_NAME = ted
 
 run: 
 	clear
-	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f hin.geo -o /home/vfsilva/estudo/repositories/project/output -q qry.qry
+	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f casa-campo.geo -o /home/vfsilva/estudo/repositories/project/output -q 006ups.qry
 
 clear: 
 	rm *.o

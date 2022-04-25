@@ -19,7 +19,11 @@ Line createLine() {
 }
 
 Item buildLine(char *command, Line vline) {
-    printf("--- ENTROU buildLine ---\n");
+    printf("--- ENTROU buildLine --- command: %s\n", command);
+    if (command == "l") {
+        printf("Entrou \n\n");
+        return NULL;
+    }
 
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
