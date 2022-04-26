@@ -7,7 +7,7 @@ typedef void *Cell;
 
 List createList();
 List *insertItemInFinal(List *list, Item *item);
-int getSizeList(List *list);
+int getSizeList(List *list, char *type);
 Cell getFirst(List list);
 Cell getNextCell(Cell cell);
 Item getCellValue(Cell cell);

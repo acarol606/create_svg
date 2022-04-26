@@ -85,7 +85,7 @@ Item getCellValue(Cell cell) {
     return data->value;
 }
 
-int getSizeList(List *list) {
+int getSizeList(List *list, char *type) {
     ListL *localList = (ListL*) list;
     Data *aux = localList->init;
     int counter = 0;
@@ -94,7 +94,7 @@ int getSizeList(List *list) {
         counter++;
         aux = aux->next;
     }
-    printf("\nLista com %d elementos.\n", counter);
+    printf("\nLista com %d elementos na lista de %s.\n", counter, type);
     return counter;
     free(aux);
 }

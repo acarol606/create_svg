@@ -57,7 +57,7 @@ char *getOutputDir(Parameters p) {
         return param->outputDir;
     }
 
-    char *relativePath = malloc(strlen(param->outputDir)+TAM_EXTENTION+1);
+    char *relativePath = malloc(strlen(param->outputDir)+TAM_EXTENTION+2);
     strcpy(relativePath, param->outputDir);
     
     char *nameSVG = malloc(strlen(param->nameGeoFile));
@@ -65,17 +65,29 @@ char *getOutputDir(Parameters p) {
     int len = strlen(param->nameGeoFile);
     int i;
 
-    for(i=1; i<=TAM_EXTENTION; i++) {
+    for(i=1; i<=TAM_EXTENTION+1; i++) {
         nameSVG[len-i] = '\0';
     }
     
-    printf("*********************nameSVG: %s\n\n", nameSVG);
-    strncpy(nameSVG, param->nameGeoFile, len-TAM_EXTENTION);
     strcat(relativePath, "/");
     strcat(relativePath, nameSVG);
-    strcat(relativePath, "svg");
-    printf("Outputdir: %s\n\n", relativePath);
 
+    if(param->nameQryFile != NULL) {
+    
+        char *nameSVGquery = malloc(strlen(param->nameQryFile));
+        strcpy(nameSVGquery, param->nameQryFile);
+        int len = strlen(param->nameQryFile);
+        int i;
+
+        for(i=1; i<=TAM_EXTENTION+1; i++) {
+            nameSVGquery[len-i] = '\0';
+        }
+    
+        strcat(relativePath, "-");
+        strcat(relativePath, nameSVGquery);
+    }
+
+    strcat(relativePath, ".svg");
 
     return relativePath;
 }

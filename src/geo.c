@@ -48,8 +48,8 @@ int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectang
 
     buildSVG(svgFile, circleList, rectangleList , lineList, textList);
 
-    return getSizeList(circleList) + 
-           getSizeList(rectangleList) +
-           getSizeList(lineList) + 
-           getSizeList(textList);
+    return getSizeList(circleList, "circulos") + 
+           getSizeList(rectangleList, "retangulos") +
+           getSizeList(lineList, "linhas") + 
+           getSizeList(textList, "textos");
 }
