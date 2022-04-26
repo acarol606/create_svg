@@ -13,11 +13,8 @@ int main(int argc, char **argv) {
     List lineList = createList();
     List textList = createList();
     
-    
-
     Parameters param = createParameters(argc, argv);
-    printf("param: %p\n\n", param);
-    getchar();
+    
     char *pathGeo = makePathGeoFile(param);
     printf("\n\npath: %s\n\n", pathGeo);
     FILE *geoFile = loadFile(pathGeo);

@@ -19,7 +19,7 @@ Line createLine() {
 }
 
 Item buildLine(char *command, Line vline) {
-    printf("--- ENTROU buildLine --- command: %s\n", command);
+    printf("--- ENTROU buildLine ---\n");
     if (command == "l") {
         printf("Entrou \n\n");
         return NULL;

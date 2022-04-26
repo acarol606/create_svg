@@ -49,12 +49,6 @@ List *insertItemInFinal(List *list, Item *item) {
 
     if(localList->init == NULL) { // Valida se a lista está vazia, caso estiver o item passado será o inicio
         localList->init = newData;
-        localList->final = NULL;
-
-    } else if (localList->final == NULL) { // Valida se o final da lista está preenchido, caso não preencher com o item que está passando por parâmetro
-        newData->prev = localList->init;
-        newData->next = NULL;
-        
         localList->final = newData;
 
     } else { // Caso a lista já tenha inicio e fim, adiciona o novo item no final da lista

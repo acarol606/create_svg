@@ -2,7 +2,6 @@
 
 double stringToDouble(char *str) {
     char *eptr;
-    printf("String: %s\n\n", str);
     return strtod(str, &eptr);
 }
 
