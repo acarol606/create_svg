@@ -49,7 +49,7 @@ int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectang
 
     buildSVG(svgFile, circleList, rectangleList , lineList, textList);
 
-    // free(svgFile);
+     free(svgFile);
     
     return getSizeList(circleList) + 
            getSizeList(rectangleList) +

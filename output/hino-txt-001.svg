@@ -1,0 +1,34 @@
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<text id="1" x="5.000000" y="15.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Salve Salve o tricolor paulista
+"</text>
+	<text id="3" x="5.000000" y="47.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Tu Tu es forte, tu es grande
+"</text>
+	<text id="4" x="5.000000" y="63.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Dentre Dentre os grandes es o primeiro
+"</text>
+	<text id="5" x="5.000000" y="79.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Tu Tu es forte, tu es grande
+"</text>
+	<text id="6" x="5.000000" y="95.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Dentre Dentre os grandes es o primeiro
+"</text>
+	<text id="7" x="5.000000" y="111.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Oh, Oh, Tricolor
+"</text>
+	<text id="8" x="5.000000" y="127.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Clube Clube bem amado
+"</text>
+	<text id="9" x="5.000000" y="143.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"As As tuas gloriasVem do passado
+"</text>
+	<text id="10" x="5.000000" y="159.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Sao Sao teus guias brasileiros
+"</text>
+	<text id="11" x="5.000000" y="175.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Que Que te amam eternamente
+"</text>
+	<text id="12" x="5.000000" y="191.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"De De Sao Paulo tens o nome
+"</text>
+	<text id="13" x="5.000000" y="207.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Que Que ostentas dignamente
+"</text>
+	<text id="14" x="5.000000" y="223.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"De De Sao Paulo tens o nome
+"</text>
+	<text id="15" x="5.000000" y="239.000000" text-anchor="i" stroke="tomato" fill="MistyRose" fill-opacity="50" >"Que Que ostentas dignamente
+"</text>
+	<line id="9999" x1="8.000000" y1="1.000000" x2="8.000000" y2="70.500000" stroke="red" fill-opacity="50" />
+	<line id="9999" x1="8.000000" y1="1.000000" x2="95.500000" y2="1.000000" stroke="red" fill-opacity="50" />
+	<line id="9999" x1="95.500000" y1="1.000000" x2="95.500000" y2="70.500000" stroke="red" fill-opacity="50" />
+	<line id="9999" x1="8.000000" y1="70.500000" x2="95.500000" y2="70.500000" stroke="red" fill-opacity="50" />
+</svg>

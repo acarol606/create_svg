@@ -286,8 +286,8 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
 
         } 
     }
-    /* 
-        char *eptr;
+    
+     /*    char *eptr;
 
         if(strcmp(command, "inp")==0) {
             inp(qryFile, command, queue);
@@ -302,7 +302,7 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
             clp(queue);
 
         }
-    } */
+    }  */
 
     // makePolygon(queue, circleList, rectangleList, lineList, textList, svgFile);
 }
