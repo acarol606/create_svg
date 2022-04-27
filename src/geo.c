@@ -13,7 +13,6 @@ int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectang
         strcpy(idGeo, str);
 
         char *ptr = strtok(idGeo, " ");
-        printf("Linha: %d, Forma: %s\n\n", ++count, ptr);
 
         if (!strcmp(ptr, "c")) {
             Circle circle = createCircle();
