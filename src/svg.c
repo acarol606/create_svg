@@ -82,7 +82,7 @@ void insertHeaderSVG(FILE *svg) {
 }
 
 void createSVGRectangle(int id, char *corb, char *corp, double width, double height, double y, double x, FILE *svg) {
-    fprintf(svg, "\n\t<rect id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" height=\"%lf\" width=\"%lf\" y=\"%lf\" x=\"%lf\" />", id, corb, corp, width, height, y, x);
+    fprintf(svg, "\n\t<rect id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" height=\"%lf\" width=\"%lf\" y=\"%lf\" x=\"%lf\" />", id, corp, corb, height, width, y, x);
     fflush(svg);
 }
 

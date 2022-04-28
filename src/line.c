@@ -20,10 +20,6 @@ Line createLine() {
 
 Item buildLine(char *command, Line vline) {
     printf("--- ENTROU buildLine ---\n");
-    if (command == "l") {
-        printf("Entrou \n\n");
-        return NULL;
-    }
 
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
@@ -62,37 +58,37 @@ Item buildLine(char *command, Line vline) {
     return line;
 }
 
-int getIdLine(Line *line) {
+int getIdLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->id;
 }
 
-double getInitXLine(Line *line) {
+double getInitXLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->initX;
 }
 
-double getInitYLine(Line *line) {
+double getInitYLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->initY;
 }
 
-double getFinalXLine(Line *line) {
+double getFinalXLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->finalX;
 }
 
-double getFinalYLine(Line *line) {
+double getFinalYLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->finalY;
 }
 
-char *getColorLine(Line *line) {
+char *getColorLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->color;

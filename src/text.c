@@ -27,6 +27,7 @@ Item buildText(char *command, Text vtext) {
 
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
+    
     char *eptr;
 
     text->id = atoi(ptr);

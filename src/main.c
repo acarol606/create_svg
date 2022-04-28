@@ -12,15 +12,9 @@ int main(int argc, char **argv) {
     List rectangleList = createList();
     List lineList = createList();
     List textList = createList();
-<<<<<<< HEAD
-
-    Parameters param = createParameters(argc, argv);
-
-=======
     
     Parameters param = createParameters(argc, argv);
     
->>>>>>> a9ad70aa2265540ff0d96a82d984e069830edd53
     char *pathGeo = makePathGeoFile(param);
     
     FILE *geoFile = loadFile(pathGeo);
@@ -59,4 +53,6 @@ int main(int argc, char **argv) {
     queryCommands(qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
 
     insertFooterSVG(svgFile);
+
+    fclose(svgFile);
 }

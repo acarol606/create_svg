@@ -19,6 +19,7 @@ Item buildCircle(char *command, Circle vcircle) {
     printf("--- ENTROU buildCircle ---\n");
 
     char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
 
     char *eptr;
 

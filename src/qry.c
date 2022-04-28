@@ -6,10 +6,40 @@ double stringToDouble(char *str) {
 }
 
 void generateSelection(double x, double y, double width, double height, FILE *svgFile) {
-    createSVGLine(9999, x, y, x, x+height, "red", svgFile);
-    createSVGLine(9999, x, y, y+width, y, "red", svgFile);
-    createSVGLine(9999, y+width, y, y+width, x+height, "red", svgFile);
-    createSVGLine(9999, x, x+height, y+width, x+height, "red", svgFile);
+    createSVGLine(9999, x, y, x, y+height, "red", svgFile);
+    createSVGLine(9999, x, y, x+width, y, "red", svgFile);
+    createSVGLine(9999, x+width, y, x+width, y+height, "red", svgFile);
+    createSVGLine(9999, x, y+height, x+width, y+height, "red", svgFile);
+}
+
+void dps(FILE *qryFile, char *command, Queue queue) {
+    printf("--- INICIO dps ---\n");
+
+    char *ptr = strtok(command, " ");
+    ptr = strtok(NULL, " ");
+
+    int id = atoi(ptr);
+    ptr = strtok(NULL, " ");
+
+    double dx = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
+
+    double dy = stringToDouble(ptr);
+    ptr = strtok(NULL, " ");
+
+    char *corb = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(corb, ptr);
+    ptr = strtok(NULL, " ");
+
+    char *corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
+    strcpy(corp, ptr);
+
+    printf("--- DPS:\n");
+    printf("Id: %d\n", id);
+    printf("dx: %lf\n", dx);
+    printf("dy: %lf\n", dy);
+    printf("Corb: %s\n", corb);
+    printf("Corp: %s\n", corp);
 }
 
 void inp(FILE *qryFile, char *command, Queue queue) {
@@ -47,19 +77,19 @@ void clp(Queue queue) {
 }
 
 void sel(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
-    int index = 0;
-    double x;
-    double y;
+    printf("--- Entrou sel ---\n");
+    double xSel;
+    double ySel;
     double width;
     double height;
 
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
 
-    x = stringToDouble(ptr);
+    xSel = stringToDouble(ptr);
     ptr = strtok(NULL, " ");
 
-    y = stringToDouble(ptr);
+    ySel = stringToDouble(ptr);
     ptr = strtok(NULL, " ");
 
     width = stringToDouble(ptr);
@@ -67,69 +97,81 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
 
     height = stringToDouble(ptr);
 
-    printf("X: %lf\n", x);
-    printf("Y: %lf\n", y);
+    printf("X: %lf\n", xSel);
+    printf("Y: %lf\n", ySel);
     printf("Width: %lf\n", width);
     printf("Height: %lf\n", height);
 
-    generateSelection(x, y, width, height, svgFile);
+    generateSelection(xSel, ySel, width, height, svgFile);
+
+    Cell circleCell = getFirst(circleList);
+    Cell rectangleCell = getFirst(rectangleList);
+    Cell lineCell = getFirst(lineList);
+    Cell textCell = getFirst(textList);
     
-     while(hasNext(queue, index)) {
-        int id = getData(queue, index);
+    while(circleCell != NULL) {
+        Item circle = getCellValue(circleCell);
 
-        Cell circleCell = getFirst(circleList);
-        Cell rectangleCell = getFirst(rectangleList);
-        Cell lineCell = getFirst(lineList);
-        Cell textCell = getFirst(textList);
-    
-        while(circleCell != NULL) {
-            Item circle = getCellValue(circleCell);
+        double x = getXCircle(circle);
+        double y = getYCircle(circle);
+        int id = getIdCircle(circle);
 
-            double x = getXCircle(circle);
-            double y = getYCircle(circle);
-
-
-            insertSVGAnchor(y, x, svgFile);
-
-            circleCell = getNextCell(circleCell);
-        }
-        
-        while(rectangleCell != NULL) {
-            Item rectangle = getCellValue(rectangleCell);
-
-            double x = getXRectangle(rectangle);
-            double y = getYRectangle(rectangle);
-
-            insertSVGAnchor(y, x, svgFile);
-
-            rectangleCell = getNextCell(rectangleCell);
-        }
-        
-        while(lineCell != NULL) {
-            Item line = getCellValue(lineCell);
-
-            double initX = getInitXLine(line);
-            double initY = getInitYLine(line);
-
-            insertSVGAnchor(initY, initX, svgFile);
-
-            lineCell = getNextCell(lineCell);
+        if(x >= xSel && x <= width && y >= ySel && y<= height) {
+            insertQueue(queue, id);
+            insertSVGAnchor(x, y, svgFile);
         }
 
+        circleCell = getNextCell(circleCell);
+    }
         
-        while(textCell != NULL) {
-            Item text = getCellValue(textCell);
+    while(rectangleCell != NULL) {
+        Item rectangle = getCellValue(rectangleCell);
 
-            double x = getXText(text);
-            double y = getYText(text);
+        double x = getXRectangle(rectangle);
+        double y = getYRectangle(rectangle);
+        int id = getIdRectangle(rectangle);
 
-            insertSVGAnchor(y, x, svgFile);
-
-            textCell = getNextCell(textCell);
+        if(x >= xSel && x <= width && y >= ySel && y<= height) {
+            insertQueue(queue, id);
+            insertSVGAnchor(x, y, svgFile);
         }
+
+        rectangleCell = getNextCell(rectangleCell);
+    }
         
-        index++;
-    } 
+    while(lineCell != NULL) {
+        Item line = getCellValue(lineCell);
+
+        double initX = getInitXLine(line);
+        double initY = getInitYLine(line);
+        double finalX = getFinalXLine(line);
+        double finalY = getFinalYLine(line);
+        int id = getIdLine(line);
+
+        if(initX >= xSel && initX <= width && initY >= ySel && initY<= height && 
+            finalX >= xSel && finalX <= width && finalY >= ySel && finalY<= height) {
+            insertQueue(queue, id);
+             insertSVGAnchor(initX, initY, svgFile);
+        }
+
+        lineCell = getNextCell(lineCell);
+    }
+
+        
+    while(textCell != NULL) {
+        Item text = getCellValue(textCell);
+
+        double x = getXText(text);
+        double y = getYText(text);
+        int id = getIdText(text);
+
+        if(x >= xSel && x <= width && y >= ySel && y<= height) {
+            insertQueue(queue, id);
+            insertSVGAnchor(x, y, svgFile);
+        }
+
+        textCell = getNextCell(textCell);
+    }
 }
 
 void pol(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
@@ -273,6 +315,9 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
 
         char *ptr = strtok(idCommand, " ");
 
+        printf("PTR: %s\n\n", ptr);
+
+
         if(strcmp(ptr, "inp")==0) {
             inp(qryFile, str, queue);
 
@@ -280,10 +325,20 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
             pol(str, queue, circleList, rectangleList, lineList, textList, svgFile);
 
         } else if(strcmp(ptr, "sel")==0) {
-            printf("Sel command: %s", str);
+            clp(queue);
             sel(str, queue, circleList, rectangleList, lineList, textList, svgFile);
 
-        } 
+        } else if(strcmp(ptr, "sel+")==0) {
+            printf("Sel+ \n");
+            sel(str, queue, circleList, rectangleList, lineList, textList, svgFile);
+
+        }  else if(strcmp(ptr, "rmp")==0) {
+            rmp(queue);
+
+        }  else if(strcmp(ptr, "clp")==0) {
+            clp(queue);
+
+        }
     }
     
      /*    char *eptr;

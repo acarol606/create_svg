@@ -4,11 +4,11 @@ PROJECT_NAME = ted
 
 run: 
 	clear
-	valgrind -s ./$(PROJECT_NAME) -e /home/util/Desktop/projeto1/create_svg/input -f escada-20.geo -o /home/util/Desktop/projeto1/create_svg/output -q 006ups.qry
+	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input -f casa-campo.geo -o /home/vfsilva/estudo/repositories/project/output -q 004-dels14.qry
 
 clear: 
-	rm *.o
-	rm $(PROJECT_NAME)
+	rm *.o;
+	rm $(PROJECT_NAME);
 	cd ..;cd output; rm *.svg
 
 $(PROJECT_NAME): main.o system.o files.o geo.o list.o svg.o circle.o rectangle.o line.o text.o queue.o qry.o

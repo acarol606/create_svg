@@ -45,11 +45,12 @@ Item buildRectangle(char *command, Rectangle vrectangle) {
 
     rectangle->corb = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
     strcpy(rectangle->corb, ptr);
+    ptr = strtok(NULL, " ");
 
     rectangle->corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
     strcpy(rectangle->corp, ptr);
 
-    /* printf("Id: %d\n", rectangle->id);
+    printf("Id: %d\n", rectangle->id);
     printf("X: %f\n", rectangle->x);
     printf("Y: %f\n", rectangle->y);
     printf("Width: %lf\n", rectangle->width);
@@ -57,7 +58,7 @@ Item buildRectangle(char *command, Rectangle vrectangle) {
     printf("Corb: %s\n", rectangle->corb);
     printf("Corp: %s\n", rectangle->corp);
 
-    printf("--- FIM buildRectangle ---\n"); */
+    printf("--- FIM buildRectangle ---\n");
 
     return rectangle;
 }
