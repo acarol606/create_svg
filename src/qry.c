@@ -12,7 +12,7 @@ void generateSelection(double x, double y, double width, double height, FILE *sv
     createSVGLine(9999, x, y+height, x+width, y+height, "red", svgFile);
 }
 
-void dps(FILE *qryFile, char *command, Queue queue) {
+void dps(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- INICIO dps ---\n");
 
     char *ptr = strtok(command, " ");
@@ -40,6 +40,92 @@ void dps(FILE *qryFile, char *command, Queue queue) {
     printf("dy: %lf\n", dy);
     printf("Corb: %s\n", corb);
     printf("Corp: %s\n", corp);
+
+    int index = 0;
+    int idAux = id;
+
+    while(hasNext(queue, index)) {
+        int idItem = getData(queue, index);
+
+        Cell circleCell = getFirst(circleList);
+        Cell rectangleCell = getFirst(rectangleList);
+        Cell lineCell = getFirst(lineList);
+        Cell textCell = getFirst(textList);
+    
+        while(circleCell != NULL) {
+            Item circle = getCellValue(circleCell);
+
+            int idCircle = getIdCircle(circle);
+            double x = getXCircle(circle);
+            double y = getYCircle(circle);
+
+            if(idCircle == idItem) {
+                printf("Circle\n");
+            }
+            id++;
+
+
+            circleCell = getNextCell(circleCell);
+        }
+
+        id = idAux;
+        
+        while(rectangleCell != NULL) {
+            Item rectangle = getCellValue(rectangleCell);
+
+            int idRectangle = getIdRectangle(rectangle);
+            double x = getXRectangle(rectangle);
+            double y = getYRectangle(rectangle);
+
+            if(idRectangle == idItem) {
+                printf("Rectangle\n");
+                // rectangleCell = getNextCell(rectangleCell);
+            }
+            id++;
+            rectangleCell = getNextCell(rectangleCell);
+        }
+
+        id = idAux;
+        
+        while(lineCell != NULL) {
+            Item line = getCellValue(lineCell);
+
+            int idLine = getIdLine(line);
+            double initX = getInitXLine(line);
+            double initY = getInitYLine(line);
+            double finalX = getFinalXLine(line);
+            double finalY = getFinalYLine(line);
+
+            if(idLine == idItem) {
+                printf("Line \n");
+                createSVGLine(id, dx+initX, dy+initY, dx+finalX, dy+finalY, corb, svgFile);
+                id++;
+            }
+            lineCell = getNextCell(lineCell);
+        }
+
+        id = idAux;
+
+        
+        while(textCell != NULL) {
+            Item text = getCellValue(textCell);
+
+            int idText = getIdText(text);
+            double x = getXText(text);
+            double y = getYText(text);
+
+            if(idText == idItem) {
+                printf("Text\n");
+                // textCell = getNextCell(textCell);
+            }
+            id++;
+            textCell = getNextCell(textCell);
+        }
+
+        id = idAux;
+        
+        index++;
+    }
 }
 
 void inp(FILE *qryFile, char *command, Queue queue) {
@@ -119,6 +205,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
         if(x >= xSel && x <= width && y >= ySel && y<= height) {
             insertQueue(queue, id);
             insertSVGAnchor(x, y, svgFile);
+            insertSVGAnchorSelect(x, y, svgFile);
         }
 
         circleCell = getNextCell(circleCell);
@@ -134,6 +221,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
         if(x >= xSel && x <= width && y >= ySel && y<= height) {
             insertQueue(queue, id);
             insertSVGAnchor(x, y, svgFile);
+            insertSVGAnchorSelect(x, y, svgFile);
         }
 
         rectangleCell = getNextCell(rectangleCell);
@@ -152,6 +240,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
             finalX >= xSel && finalX <= width && finalY >= ySel && finalY<= height) {
             insertQueue(queue, id);
              insertSVGAnchor(initX, initY, svgFile);
+             insertSVGAnchorSelect(initX, initY, svgFile);
         }
 
         lineCell = getNextCell(lineCell);
@@ -168,6 +257,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
         if(x >= xSel && x <= width && y >= ySel && y<= height) {
             insertQueue(queue, id);
             insertSVGAnchor(x, y, svgFile);
+            insertSVGAnchorSelect(x, y, svgFile);
         }
 
         textCell = getNextCell(textCell);
@@ -338,25 +428,8 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
         }  else if(strcmp(ptr, "clp")==0) {
             clp(queue);
 
+        } else if(strcmp(ptr, "dps")==0) {
+            dps(str, queue, circleList, rectangleList, lineList, textList, svgFile);
         }
     }
-    
-     /*    char *eptr;
-
-        if(strcmp(command, "inp")==0) {
-            inp(qryFile, command, queue);
-
-        } else if(strcmp(command, "rmp")==0) {
-            rmp(queue);
-
-        } else if(strcmp(command, "clp")==0) {
-            clp(queue);
-
-        } else if(strcmp(command, "pol")==0) {
-            clp(queue);
-
-        }
-    }  */
-
-    // makePolygon(queue, circleList, rectangleList, lineList, textList, svgFile);
 }

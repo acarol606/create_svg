@@ -25,6 +25,7 @@ Queue createQueue(int capacity) {
 }
 
 bool hasNext(Queue queue, int index) {
+	printf("--- INICIO hasNext ---\n");
 	LQueue *q = (LQueue*) queue;
 
 	if(q->totalItems==index) {
