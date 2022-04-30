@@ -50,7 +50,7 @@ Parameters *createParameters(int argc, char** argv) {
     return setParameters(argc, argv, param);
 }
 
-char *getOutputDir(Parameters p) {
+char *getOutputDir(Parameters p, char *extention) {
     ParametersL *param = (ParametersL*) p;
 
     if(endsWith(param->outputDir) == 0) {
@@ -87,7 +87,7 @@ char *getOutputDir(Parameters p) {
         strcat(relativePath, nameSVGquery);
     }
 
-    strcat(relativePath, ".svg");
+    strcat(relativePath, extention);
 
     return relativePath;
 }

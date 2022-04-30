@@ -26,9 +26,7 @@ int main(int argc, char **argv) {
 
     char *teste = getQryName(param);
 
-    char *outputDir = getOutputDir(param);
-
-    printf("Qry name main: %s\n\n", outputDir);
+    char *outputDir = getOutputDir(param, ".svg");
 
     FILE *svgFile = fopen(outputDir, "w");
 
@@ -41,8 +39,6 @@ int main(int argc, char **argv) {
 
     char *pathQry = makePathQryFile(param);
 
-    printf("Path file: %s\n\n", pathQry);
-
     FILE *qryFile = loadFile(pathQry);
 
     if(qryFile == NULL) {
@@ -50,9 +46,19 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    queryCommands(qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
+    char *outputDirTxt = getOutputDir(param, ".txt");
+
+    FILE *txtFile = fopen(outputDirTxt, "w");
+
+    if(txtFile == NULL) {
+        printf("Arquivo nulo!\n\n");
+        return 0;
+    }
+
+    queryCommands(txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
 
     insertFooterSVG(svgFile);
 
     fclose(svgFile);
+    fclose(txtFile);
 }

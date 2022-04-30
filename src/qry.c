@@ -12,7 +12,7 @@ void generateSelection(double x, double y, double width, double height, FILE *sv
     createSVGLine(9999, x, y+height, x+width, y+height, "red", svgFile);
 }
 
-void dps(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+void dps(FILE *textFile, char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- INICIO dps ---\n");
 
     char *ptr = strtok(command, " ");
@@ -58,9 +58,18 @@ void dps(char *command, Queue queue, List circleList, List rectangleList, List l
             int idCircle = getIdCircle(circle);
             double x = getXCircle(circle);
             double y = getYCircle(circle);
+            double radius = getRadiusCircle(circle);
 
             if(idCircle == idItem) {
                 printf("Circle\n");
+                fprintf(textFile, "circle\n");
+                fprintf(textFile, "id: %d\n", id);
+                fprintf(textFile, "x: %lf\n", dx+x);
+                fprintf(textFile, "y: %lf\n", dy+y);
+                fprintf(textFile, "raio: %lf\n", radius);
+                fprintf(textFile, "borda: %lf\n", corb);
+                fprintf(textFile, "preenchimento: %lf\n", corp);
+                createSVGCircle(id, corb, corp, radius, dy+y, dx+x, svgFile);
             }
             id++;
 
@@ -76,9 +85,20 @@ void dps(char *command, Queue queue, List circleList, List rectangleList, List l
             int idRectangle = getIdRectangle(rectangle);
             double x = getXRectangle(rectangle);
             double y = getYRectangle(rectangle);
+            double width = getWidthRectangle(rectangle);
+            double height = getHeightRectangle(rectangle);
 
             if(idRectangle == idItem) {
                 printf("Rectangle\n");
+                fprintf(textFile, "\nretangulo\n");
+                fprintf(textFile, "id: %d\n", id);
+                fprintf(textFile, "x: %lf\n", dx+x);
+                fprintf(textFile, "y: %lf\n", dy+y);
+                fprintf(textFile, "width: %lf\n", width);
+                fprintf(textFile, "height: %lf\n", height);
+                fprintf(textFile, "borda: %lf\n", corb);
+                fprintf(textFile, "preenchimento: %lf\n", corp);
+                createSVGRectangle(id, corb, corp, width, height, dy+y, dx+x, svgFile);
                 // rectangleCell = getNextCell(rectangleCell);
             }
             id++;
@@ -98,6 +118,13 @@ void dps(char *command, Queue queue, List circleList, List rectangleList, List l
 
             if(idLine == idItem) {
                 printf("Line \n");
+                fprintf(textFile, "\nlinha\n");
+                fprintf(textFile, "id: %d\n", id);
+                fprintf(textFile, "x: %lf\n", dx+initX);
+                fprintf(textFile, "y: %lf\n", dy+initY);
+                fprintf(textFile, "x final: %lf\n", dx+finalX);
+                fprintf(textFile, "y final: %lf\n", dy+finalY);
+                fprintf(textFile, "cor: %lf\n", corb);
                 createSVGLine(id, dx+initX, dy+initY, dx+finalX, dy+finalY, corb, svgFile);
                 id++;
             }
@@ -113,9 +140,19 @@ void dps(char *command, Queue queue, List circleList, List rectangleList, List l
             int idText = getIdText(text);
             double x = getXText(text);
             double y = getYText(text);
+            char anchor = getAnchorText(text);
+            char *value = getValueText(text);
 
             if(idText == idItem) {
                 printf("Text\n");
+                fprintf(textFile, "\ntext\n");
+                fprintf(textFile, "id: %d\n", id);
+                fprintf(textFile, "x: %lf\n", x);
+                fprintf(textFile, "y: %lf\n", y);
+                fprintf(textFile, "ancora: %lf\n", anchor);
+                fprintf(textFile, "borda: %s\n", corb);
+                fprintf(textFile, "preenchimento: %lf\n", corp);
+                createSVGText(id, dx+x, dy+y, anchor, corb, corp, value, svgFile);
                 // textCell = getNextCell(textCell);
             }
             id++;
@@ -128,7 +165,7 @@ void dps(char *command, Queue queue, List circleList, List rectangleList, List l
     }
 }
 
-void inp(FILE *qryFile, char *command, Queue queue) {
+void inp(FILE *txtFile, FILE *qryFile, char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList) {
     printf("--- INICIO INP ---\n");
 
     char *ptr = strtok(command, " ");
@@ -139,6 +176,123 @@ void inp(FILE *qryFile, char *command, Queue queue) {
     id = atoi(ptr);
 
     insertQueue(queue, id);
+
+    int index = 0;
+
+    while(hasNext(queue, index)) {
+        int id = getData(queue, index);
+
+        Cell circleCell = getFirst(circleList);
+        Cell rectangleCell = getFirst(rectangleList);
+        Cell lineCell = getFirst(lineList);
+        Cell textCell = getFirst(textList);
+    
+        while(circleCell != NULL) {
+            Item circle = getCellValue(circleCell);
+
+            int idCircle = getIdCircle(circle);
+
+            if(idCircle != id) {
+                circleCell = getNextCell(circleCell);
+            } else {
+                double x = getXCircle(circle);
+                double y = getYCircle(circle);
+                double radius = getRadiusCircle(circle);
+                char *corb = getCorBCircle(circle);
+                char *corp = getCorPCircle(circle);
+
+                fprintf(txtFile, "círculo");
+                fprintf(txtFile, "âncora em (%lf, %lf)", x, y);
+                fprintf(txtFile, "raio: %lf", radius);
+                fprintf(txtFile, "preenchimento: %s", corp);
+                fprintf(txtFile, "borda: %s\n", corb);
+                break;
+            }
+        }
+        
+        while(rectangleCell != NULL) {
+            Item rectangle = getCellValue(rectangleCell);
+
+            int idRectangle = getIdRectangle(rectangle);
+
+            if(idRectangle != id) {
+
+                rectangleCell = getNextCell(rectangleCell);
+            } else {
+
+                double x = getXRectangle(rectangle);
+                double y = getYRectangle(rectangle);
+                double width = getWidthRectangle(rectangle);
+                double height = getHeightRectangle(rectangle);
+                char *corb = getCorBRectangle(rectangle);
+                char *corp = getCorPRectangle(rectangle);
+
+                fprintf(txtFile, "retangulo");
+                fprintf(txtFile, "âncora em (%lf, %lf)", x, y);
+                fprintf(txtFile, "width: %lf", width);
+                fprintf(txtFile, "height: %lf", height);
+                fprintf(txtFile, "preenchimento: %s", corp);
+                fprintf(txtFile, "borda: %s\n", corb);
+                break;
+            }
+        }
+        
+        while(lineCell != NULL) {
+            Item line = getCellValue(lineCell);
+
+            int idLine = getIdLine(line);
+
+            if(id != idLine) {
+
+                lineCell = getNextCell(lineCell);
+            } else {
+
+                double x = getInitXLine(line);
+                double y = getInitYLine(line);
+                double finalX = getFinalXLine(line);
+                double finalY = getFinalYLine(line);
+                char *color = getColorLine(line);
+
+                fprintf(txtFile, "linha");
+                fprintf(txtFile, "âncora em (%lf, %lf)", x, y);
+                fprintf(txtFile, "x inicial: %lf", x);
+                fprintf(txtFile, "y inicial: %lf", y);
+                fprintf(txtFile, "x final: %s", finalX);
+                fprintf(txtFile, "y final: %s\n", finalY);
+                break;
+            }
+
+        }
+
+        
+        while(textCell != NULL) {
+            Item text = getCellValue(textCell);
+
+            int idText = getIdText(text);
+
+            if(id != idText) {
+
+                textCell = getNextCell(textCell);
+            } else {
+
+                double x = getXText(text);
+                double y = getYText(text);
+                char anchor = getAnchorText(text);
+                char *value = getValueText(text);
+                char *corb = getCorBText(text);
+                char *corp = getCorPText(text);
+
+                fprintf(txtFile, "text");
+                fprintf(txtFile, "âncora: %c", anchor);
+                fprintf(txtFile, "valor: %s", value);
+                fprintf(txtFile, "borda: %s", corb);
+                fprintf(txtFile, "preenchimento: %s", corp);
+                break;
+            }
+        }
+        
+        index++;
+    }
 }
 
 void rmp(Queue queue) {
@@ -162,7 +316,7 @@ void clp(Queue queue) {
     clearQueue(queue);
 }
 
-void sel(char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+void sel(FILE *txtFile, char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- Entrou sel ---\n");
     double xSel;
     double ySel;
@@ -203,6 +357,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
         int id = getIdCircle(circle);
 
         if(x >= xSel && x <= width && y >= ySel && y<= height) {
+            fprintf(txtFile, "%d: circulo\n", id);
             insertQueue(queue, id);
             insertSVGAnchor(x, y, svgFile);
             insertSVGAnchorSelect(x, y, svgFile);
@@ -216,9 +371,13 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
 
         double x = getXRectangle(rectangle);
         double y = getYRectangle(rectangle);
+        double widthRec = getWidthRectangle(rectangle);
+        double heightRec = getHeightRectangle(rectangle);
         int id = getIdRectangle(rectangle);
 
-        if(x >= xSel && x <= width && y >= ySel && y<= height) {
+        if(x >= xSel && x <= width && y >= ySel && y<= height && 
+          widthRec <= xSel && widthRec >= width && heightRec <= ySel && heightRec >= height) {
+            fprintf(txtFile, "%d: retangulo\n", id);
             insertQueue(queue, id);
             insertSVGAnchor(x, y, svgFile);
             insertSVGAnchorSelect(x, y, svgFile);
@@ -238,9 +397,10 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
 
         if(initX >= xSel && initX <= width && initY >= ySel && initY<= height && 
             finalX >= xSel && finalX <= width && finalY >= ySel && finalY<= height) {
+            fprintf(txtFile, "%d: linha\n", id);
             insertQueue(queue, id);
-             insertSVGAnchor(initX, initY, svgFile);
-             insertSVGAnchorSelect(initX, initY, svgFile);
+            insertSVGAnchor(initX, initY, svgFile);
+            insertSVGAnchorSelect(initX, initY, svgFile);
         }
 
         lineCell = getNextCell(lineCell);
@@ -255,6 +415,7 @@ void sel(char *command, Queue queue, List circleList, List rectangleList, List l
         int id = getIdText(text);
 
         if(x >= xSel && x <= width && y >= ySel && y<= height) {
+            fprintf(txtFile, "%d: texto\n", id);
             insertQueue(queue, id);
             insertSVGAnchor(x, y, svgFile);
             insertSVGAnchorSelect(x, y, svgFile);
@@ -389,7 +550,7 @@ void makeAnchor(Queue queue, List circleList, List rectangleList, List lineList,
     }
 }
 
-void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+void queryCommands(FILE *txtFile, FILE *qryFile, int capacity, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- Entrou queryCommands ---\n");
 
     Queue queue = createQueue(capacity);
@@ -408,28 +569,29 @@ void queryCommands(FILE *qryFile, int capacity, List circleList, List rectangleL
         printf("PTR: %s\n\n", ptr);
 
 
+        fprintf(txtFile, "[*] %s", str);
         if(strcmp(ptr, "inp")==0) {
-            inp(qryFile, str, queue);
+            inp(txtFile, qryFile, str, queue, circleList, rectangleList, lineList, textList);
 
         } else if(strcmp(ptr, "pol")==0) {
             pol(str, queue, circleList, rectangleList, lineList, textList, svgFile);
 
         } else if(strcmp(ptr, "sel")==0) {
             clp(queue);
-            sel(str, queue, circleList, rectangleList, lineList, textList, svgFile);
+            sel(txtFile, str, queue, circleList, rectangleList, lineList, textList, svgFile);
 
         } else if(strcmp(ptr, "sel+")==0) {
             printf("Sel+ \n");
-            sel(str, queue, circleList, rectangleList, lineList, textList, svgFile);
+            sel(txtFile, str, queue, circleList, rectangleList, lineList, textList, svgFile);
 
         }  else if(strcmp(ptr, "rmp")==0) {
-            rmp(queue);
+            rmp(squeue);
 
         }  else if(strcmp(ptr, "clp")==0) {
             clp(queue);
 
         } else if(strcmp(ptr, "dps")==0) {
-            dps(str, queue, circleList, rectangleList, lineList, textList, svgFile);
+            dps(txtFile, str, queue, circleList, rectangleList, lineList, textList, svgFile);
         }
     }
 }
