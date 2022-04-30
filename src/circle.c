@@ -16,7 +16,6 @@ Circle createCircle() {
 }
 
 Item buildCircle(char *command, Circle vcircle) {
-    printf("--- ENTROU buildCircle ---\n");
 
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
@@ -44,14 +43,14 @@ Item buildCircle(char *command, Circle vcircle) {
     circle->corp = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
     strcpy(circle->corp, ptr);
 
-    /* printf("Id: %d\n", circle->id);
+    printf("Id: %d\n", circle->id);
     printf("X: %lf\n", circle->x);
     printf("Y: %lf\n", circle->y);
     printf("Radius: %lf\n", circle->radius);
     printf("Corb: %s\n", circle->corb);
     printf("Corp: %s\n", circle->corp);
 
-    printf("--- FIM buildCircle ---\n"); */
+    printf("--- FIM buildCircle ---\n");
 
     return circle;
 }

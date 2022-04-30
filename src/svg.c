@@ -87,7 +87,7 @@ void createSVGRectangle(int id, char *corb, char *corp, double width, double hei
 }
 
 void createSVGCircle(int id, char *corb, char *corp, double radius, double y, double x, FILE *svg) {
-    fprintf(svg, "\n\t<circle id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" r=\"%lf\" cy=\"%lf\" cx=\"%lf\"/>", id, corb, corp, radius, y, x);
+    fprintf(svg, "\n\t<circle id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" r=\"%lf\" cy=\"%lf\" cx=\"%lf\"/>", id, corp, corb, radius, y, x);
     fflush(svg);
 }
 
@@ -104,7 +104,7 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
 
 void insertSVGAnchor(double x, double y, FILE *svg) {
     printf("--- Entrou insertSVGAnchor ---\n\n");
-    fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"2\" stroke-width=\"2\" fill=\"red\" />", x, y);
+    fprintf(svg, "\n\t<circle style=\"fill:red;fill-opacity:0.5;stroke:red\" r=\"2.00\" cy=\"%lf\" cx=\"%lf\"/>", y, x);
     fflush(svg);
 }
 

@@ -13,6 +13,7 @@ void clearQueue(Queue q);
 void insertQueue(Queue q, int value);
 bool queueIsEmpty(Queue q);
 bool queueIsFull(Queue q);
+int getCapacity(Queue queue);
 bool hasNext(Queue queue, int index);
 int getData(Queue queue, int index);
 

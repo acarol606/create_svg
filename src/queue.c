@@ -25,7 +25,6 @@ Queue createQueue(int capacity) {
 }
 
 bool hasNext(Queue queue, int index) {
-	printf("--- INICIO hasNext ---\n");
 	LQueue *q = (LQueue*) queue;
 
 	if(q->totalItems==index) {
@@ -33,6 +32,11 @@ bool hasNext(Queue queue, int index) {
 	}
 
 	return true;
+}
+
+int getCapacity(Queue queue) {
+	LQueue *q = (LQueue*) queue;
+	return q->capacity;
 }
 
 int getData(Queue queue, int index) {
@@ -48,7 +52,7 @@ void insertQueue(Queue queue, int value) {
 		printf("Fila está cheia!");
         return;
     }
-
+	
 	q->last++;
 	q->data[q->last] = value; // incrementa ultimo e insere
 	q->totalItems++; // mais um item inserido
@@ -65,6 +69,7 @@ void clearQueue(Queue queue) {
 	LQueue *q = (LQueue*) queue;
 
 	free(q->data); // limpa dados da fila
+
 	q->totalItems = 0;
 }
 

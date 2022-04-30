@@ -39,7 +39,6 @@ Data *getPreviusData(ListL *list) {
 }
 
 List *insertItemInFinal(List *list, Item *item) {
-    printf("--- ENTROU NO INSERT ITEM ---\n");
     ListL *localList = (ListL*) list;
 
     Data *newData = (Data*) malloc(sizeof(Data));
