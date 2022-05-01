@@ -50,6 +50,32 @@ Parameters *createParameters(int argc, char** argv) {
     return setParameters(argc, argv, param);
 }
 
+char *getOutputDir2(Parameters p, char *extention) {
+    ParametersL *param = (ParametersL*) p;
+
+    if(endsWith(param->outputDir) == 0) {
+        return param->outputDir;
+    }
+
+    char *relativePath = malloc(strlen(param->outputDir)+TAM_EXTENTION+2);
+    strcpy(relativePath, param->outputDir);
+    
+    char *nameSVG = malloc(strlen(param->nameGeoFile));
+    strcpy(nameSVG, param->nameGeoFile);
+    int len = strlen(param->nameGeoFile);
+    int i;
+
+    for(i=1; i<=TAM_EXTENTION+1; i++) {
+        nameSVG[len-i] = '\0';
+    }
+    
+    strcat(relativePath, "/");
+    strcat(relativePath, nameSVG);
+    strcat(relativePath, extention);
+
+    return relativePath;
+}
+
 char *getOutputDir(Parameters p, char *extention) {
     ParametersL *param = (ParametersL*) p;
 

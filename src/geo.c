@@ -1,6 +1,6 @@
 #include "geo.h"
 
-int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
+int buildGeometricForm(FILE *svgFileClean, FILE *arq, char *outputDir, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile) {
     printf("--- ENTROU buildGeometricForm ---\n");
 
     char str[200];
@@ -46,7 +46,7 @@ int buildGeometricForm(FILE *arq, char *outputDir, List circleList, List rectang
 
     fclose(arq);
 
-    buildSVG(svgFile, circleList, rectangleList , lineList, textList);
+    buildSVG(svgFileClean, svgFile, circleList, rectangleList , lineList, textList);
 
     return getSizeList(circleList, "circulos") + 
            getSizeList(rectangleList, "retangulos") +

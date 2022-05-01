@@ -1,7 +1,8 @@
 #include "svg.h"
 
-void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
+void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
     insertHeaderSVG(svgFile);
+    insertHeaderSVG(svgFileClean);
 
     Cell circleCell = getFirst(clist);
     Cell rectangleCell = getFirst(rlist);
@@ -20,6 +21,7 @@ void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
 
 
         createSVGCircle(id, corb, corp, radius, y, x, svgFile);
+        createSVGCircle(id, corb, corp, radius, y, x, svgFileClean);
 
         circleCell = getNextCell(circleCell);
     }
@@ -37,6 +39,7 @@ void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
 
 
         createSVGRectangle(id, corb, corp, width, height, y, x, svgFile);
+        createSVGRectangle(id, corb, corp, width, height, y, x, svgFileClean);
 
         rectangleCell = getNextCell(rectangleCell);
     }
@@ -53,6 +56,7 @@ void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
 
 
         createSVGLine(id, initX, initY, finalX, finalY, color, svgFile);
+        createSVGLine(id, initX, initY, finalX, finalY, color, svgFileClean);
 
         lineCell = getNextCell(lineCell);
     }
@@ -71,6 +75,7 @@ void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
 
 
         createSVGText(id, x, y, archor, corb, corp, value, svgFile);
+        createSVGText(id, x, y, archor, corb, corp, value, svgFileClean);
 
         textCell = getNextCell(textCell);
     }
@@ -87,12 +92,11 @@ void createSVGRectangle(int id, char *corb, char *corp, double width, double hei
 }
 
 void createSVGCircle(int id, char *corb, char *corp, double radius, double y, double x, FILE *svg) {
-    fprintf(svg, "\n\t<circle id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" r=\"%lf\" cy=\"%lf\" cx=\"%lf\"/>", id, corb, corp, radius, y, x);
+    fprintf(svg, "\n\t<circle id=\"%d\" style=\"fill:%s;fill-opacity:0.5;stroke:%s\" r=\"%lf\" cy=\"%lf\" cx=\"%lf\"/>", id, corp, corb, radius, y, x);
     fflush(svg);
 }
 
 void createSVGLine(int id, double initX, double initY, double finalX, double finalY, char *color, FILE *svg) {
-    printf("-- INICIO createSVGLine -- \n");
     fprintf(svg, "\n\t<line id=\"%d\" x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"%s\" fill-opacity=\"50\" />", id, initX, initY, finalX, finalY, color);
     fflush(svg);
 }
@@ -103,13 +107,11 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
 }
 
 void insertSVGAnchor(double x, double y, FILE *svg) {
-    printf("--- Entrou insertSVGAnchor ---\n\n");
     fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"2\" stroke-width=\"2\" fill=\"red\" />", x, y);
     fflush(svg);
 }
 
 void insertSVGAnchorSelect(double x, double y, FILE *svg) {
-    printf("--- Entrou insertSVGAnchorSelect ---\n\n");
     fprintf(svg, "\n\t<circle stroke=\"%s\" fill=\"transparent\" r=\"4\" cy=\"%lf\" cx=\"%lf\"/>", "#FF0000", y, x);
     fflush(svg);
 }

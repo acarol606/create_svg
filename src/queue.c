@@ -25,7 +25,16 @@ Queue createQueue(int capacity) {
 }
 
 bool hasNext(Queue queue, int index) {
-	printf("--- INICIO hasNext ---\n");
+	LQueue *q = (LQueue*) queue;
+
+	if(q->totalItems==index+1) {
+		return false;
+	}
+
+	return true;
+}
+
+bool isFinal(Queue queue, int index) {
 	LQueue *q = (LQueue*) queue;
 
 	if(q->totalItems==index) {
@@ -39,6 +48,12 @@ int getData(Queue queue, int index) {
 	LQueue *q = (LQueue*) queue;
 
 	return q->data[index];
+}
+
+int getSizeQueue(Queue queue) {
+	LQueue *q = (LQueue*) queue;
+
+	return q->totalItems;
 }
 
 void insertQueue(Queue queue, int value) {

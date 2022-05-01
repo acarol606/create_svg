@@ -27,15 +27,17 @@ int main(int argc, char **argv) {
     char *teste = getQryName(param);
 
     char *outputDir = getOutputDir(param, ".svg");
+    char *outputDir2 = getOutputDir2(param, ".svg");
 
     FILE *svgFile = fopen(outputDir, "w");
+    FILE *svgFileClean = fopen(outputDir2, "w");
 
     if(svgFile == NULL) {
         printf("Arquivo nulo!\n\n");
         return 0;
     }
     
-    int sizePolygon = buildGeometricForm(geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
+    int sizePolygon = buildGeometricForm(svgFileClean, geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
 
     char *pathQry = makePathQryFile(param);
 
@@ -58,7 +60,9 @@ int main(int argc, char **argv) {
     queryCommands(txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
 
     insertFooterSVG(svgFile);
+    insertFooterSVG(svgFileClean);
 
     fclose(svgFile);
+    fclose(svgFileClean);
     fclose(txtFile);
 }
