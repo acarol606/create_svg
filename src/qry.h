@@ -9,6 +9,6 @@
 #include "text.h"
 #include "svg.h"
 
-void queryCommands(FILE *txtFile, FILE *qryFile, int capacity, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile);
+void queryCommands(FILE *newSVG, FILE *readSVG, FILE *txtFile, FILE *qryFile, int capacity, List circleList, List rectangleList, List lineList, List textList, FILE *svgFile);
 
 #endif

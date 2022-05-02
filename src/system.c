@@ -112,7 +112,7 @@ char *getOutputDir(Parameters p, char *extention) {
         strcat(relativePath, "-");
         strcat(relativePath, nameSVGquery);
     }
-
+    strcat(relativePath, "-bkp");
     strcat(relativePath, extention);
 
     return relativePath;
