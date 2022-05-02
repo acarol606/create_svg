@@ -53,8 +53,7 @@ void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List ll
         double finalX = getFinalXLine(line);
         double finalY = getFinalYLine(line);
         char *color = getColorLine(line);
-
-
+        color[strlen(color)-1] = '\0';
         createSVGLine(id, initX, initY, finalX, finalY, color, svgFile);
         createSVGLine(id, initX, initY, finalX, finalY, color, svgFileClean);
 
