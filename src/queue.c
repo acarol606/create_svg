@@ -44,6 +44,11 @@ bool isFinal(Queue queue, int index) {
 	return true;
 }
 
+int getLast(Queue queue) {
+	LQueue *q = (LQueue*) queue;
+	return q->data[q->last];
+}
+
 int getData(Queue queue, int index) {
 	LQueue *q = (LQueue*) queue;
 
