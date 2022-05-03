@@ -21,7 +21,7 @@ Text createText() {
 }
 
 Item buildText(char *command, Text vtext) {
-    printf("--- ENTROU buildText --- command: %s\n", command);
+    // printf("--- ENTROU buildText --- command: %s\n", command);
 
     GText *text = (GText*) vtext;
 

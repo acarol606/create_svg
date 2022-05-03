@@ -36,6 +36,7 @@ int getData(Queue queue, int index);
 
 /* Recupera o tamanho da fila (Quantidade de elementos na fila) */
 int getSizeQueue(Queue queue);
+int getLast(Queue queue);
 
 /* Recupera a ultima ancora da fila */
 int getLast(Queue queue);

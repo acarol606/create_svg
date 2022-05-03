@@ -24,8 +24,6 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    char *teste = getQryName(param);
-
     char *outputDir = getOutputDir(param, ".svg");
     char *outputDir2 = getOutputDir2(param, ".svg");
 
@@ -49,6 +47,15 @@ int main(int argc, char **argv) {
     }
 
     char *outputDirTxt = getOutputDir(param, ".txt");
+    int i;
+    int len = strlen(outputDirTxt);
+    
+    for(i=1; i<=8; i++) {
+        outputDirTxt[len-i] = '\0';
+    }
+
+    strcat(outputDirTxt, ".txt");
+    printf("Text: %s\n\n", outputDirTxt);
 
     FILE *txtFile = fopen(outputDirTxt, "w");
 
@@ -57,12 +64,40 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    queryCommands(txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
+    FILE *readSVG = fopen(outputDir, "r");
+
+    if(txtFile == NULL) {
+        printf("Arquivo nulo!\n\n");
+        return 0;
+    }
+
+    len = strlen(outputDir);
+
+    char *outputDirNewSVG = (char*) malloc(sizeof(char) * strlen(outputDir));
+    strcpy(outputDirNewSVG, outputDir);
+
+    for(i=1; i<=8; i++) {
+        outputDirNewSVG[len-i] = '\0';
+    }
+
+    strcat(outputDirNewSVG, ".svg");
+    FILE *newSVG = fopen(outputDirNewSVG, "w");
+
+    if(newSVG == NULL) {
+        printf("Arquivo nulo!\n\n");
+        return 0;
+    }
+
+    queryCommands(newSVG, readSVG, txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
 
     insertFooterSVG(svgFile);
     insertFooterSVG(svgFileClean);
+    insertFooterSVG(newSVG);
 
+    fclose(newSVG);
     fclose(svgFile);
-    fclose(svgFileClean);
+    fclose(readSVG);
     fclose(txtFile);
+    fclose(svgFileClean);
+    remove(outputDir);
 }
