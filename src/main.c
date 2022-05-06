@@ -15,19 +15,15 @@ int main(int argc, char **argv) {
     
     Parameters param = createParameters(argc, argv);
     
-    char *pathGeo = makePathGeoFile(param);
-    
-    FILE *geoFile = loadFile(pathGeo);
+    FILE *geoFile = loadFile(getGeoPath(param));
     
     if(geoFile == NULL) {
         printf("Problemas na abertura do arquivo!\n");
         return 0;
     }
 
-    char *teste = getQryName(param);
-
-    char *outputDir = getOutputDir(param, ".svg");
-    char *outputDir2 = getOutputDir2(param, ".svg");
+    char *outputDir = getOutputDir(param, 'q');
+    char *outputDir2 = getOutputDir(param, 's');
 
     FILE *svgFile = fopen(outputDir, "w");
     FILE *svgFileClean = fopen(outputDir2, "w");
@@ -39,18 +35,14 @@ int main(int argc, char **argv) {
     
     int sizePolygon = buildGeometricForm(svgFileClean, geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
 
-    char *pathQry = makePathQryFile(param);
-
-    FILE *qryFile = loadFile(pathQry);
+    FILE *qryFile = loadFile(getQryPath(param));
 
     if(qryFile == NULL) {
         printf("Arquivo nulo!\n\n");
         return 0;
     }
 
-    char *outputDirTxt = getOutputDir(param, ".txt");
-
-    FILE *txtFile = fopen(outputDirTxt, "w");
+    FILE *txtFile = fopen(getTxtPath(param), "w");
 
     if(txtFile == NULL) {
         printf("Arquivo nulo!\n\n");
