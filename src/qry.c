@@ -890,7 +890,11 @@ void queryCommands(FILE *txtFile, FILE *qryFile, int capacity, List circleList, 
 
         char *ptr = strtok(idCommand, " ");
 
-        printf("PTR: %s\n\n", ptr);
+        if (ptr[strlen(ptr)-1] == '\n') {
+            ptr[strlen(ptr)-1] = '\0';
+        }
+
+        printf("PTR: |%s|\n\n", ptr);
 
 
         fprintf(txtFile, "[*] %s", str);

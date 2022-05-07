@@ -4,7 +4,7 @@ PROJECT_NAME = ted
 
 run: 
 	clear
-	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input/hino-txt-001 -o /home/vfsilva/estudo/repositories/project/output -q 001-simples.qry
+	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input/espiral-2v-ln-az -o /home/vfsilva/estudo/repositories/project/output -q 002.qry
 
 clear: 
 	rm *.o;
