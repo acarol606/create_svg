@@ -107,7 +107,7 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
 }
 
 void insertSVGAnchor(double x, double y, FILE *svg) {
-    fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"2\" stroke-width=\"2\" fill=\"red\" />", x, y);
+    fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"4\" stroke-width=\"2\" fill=\"red\" />", x, y);
     fflush(svg);
 }
 

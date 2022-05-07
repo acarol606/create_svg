@@ -76,10 +76,16 @@ void insertQueue(Queue queue, int value) {
 
 void queueRemove(Queue queue) { // pega o item do comeÃ§o da fila
     LQueue *q = (LQueue*) queue;
-	LQueue *temp = q->data[q->first++]; // pega o valor e incrementa o primeiro
-	q->last--;
-	q->data[q->first] = temp; // incrementa ultimo e insere
+	
+	int i;
+
+	printf("First data antes: %d\n\n\n", q->data[0]);
+	for (i = 1; i < q->totalItems; i++)	{
+		q->data[i-1] = q->data[i];
+	}
+
 	q->totalItems--;  // um item retirado
+	q->last--;
 }
 
 void clearQueue(Queue queue) {

@@ -250,16 +250,19 @@ void dps(FILE *textFile, char *command, Queue queue, List circleList, List recta
 }
 
 void inp(FILE *svgFile, FILE *txtFile, FILE *qryFile, char *command, Queue queue, List circleList, List rectangleList, List lineList, List textList) {
+    printf("--- Entrou inp ---\n");
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
 
 
     int idInp = atoi(ptr);
-        Cell circleCell = getFirst(circleList);
-        Cell rectangleCell = getFirst(rectangleList);
-        Cell lineCell = getFirst(lineList);
-        Cell textCell = getFirst(textList);
+    Cell circleCell = getFirst(circleList);
+    Cell rectangleCell = getFirst(rectangleList);
+    Cell lineCell = getFirst(lineList);
+    Cell textCell = getFirst(textList);
     
+    printf("IdInp: %d\n", idInp);
+
         while(circleCell != NULL) {
             Item circle = getCellValue(circleCell);
 
@@ -747,8 +750,8 @@ void pol(char *command, Queue queue, List circleList, List rectangleList, List l
     int firstItem = -1;
     double firstX, firstY;
     while(hasNext(queue, index)) {
-
-        int id = getData(queue, index);
+        // printf("Size queue: %d\n", getSizeQueue(queue));
+        int idItem = getData(queue, index);
         int auxIndex = index+1;
 
         Cell circleCell = getFirst(circleList);
@@ -763,7 +766,7 @@ void pol(char *command, Queue queue, List circleList, List rectangleList, List l
             double x = getXCircle(circle);
             double y = getYCircle(circle);
 
-            if(idCircle == (id-999)) {
+            if(idCircle == (idItem-999)) {
 
                 if(firstItem == -1) {
                     firstItem = idCircle;
@@ -791,7 +794,7 @@ void pol(char *command, Queue queue, List circleList, List rectangleList, List l
             double x = getXRectangle(rectangle);
             double y = getYRectangle(rectangle);
 
-            if(idRectangle == (id-999)) {
+            if(idRectangle == (idItem-999)) {
                 if(firstItem == -1) {
                     firstItem = idRectangle;
                     firstX = x;
@@ -816,13 +819,12 @@ void pol(char *command, Queue queue, List circleList, List rectangleList, List l
             double x = getInitXLine(line);
             double y = getInitYLine(line);
 
-            if(idLine == (id-999)) {
+            if(idLine == (idItem-999)) {
                 if(firstItem == -1) {
                     firstItem = idLine;
                     firstX = x;
                     firstY = y;
                 }
-                // printf("index: %d - auxIndex: %d\n", index, auxIndex);
                 int nextAnchor = getData(queue, auxIndex);
                 if(hasNext(queue, index)) {
                     linkAnchor(firstX, firstY, auxIndex, x, y, nextAnchor-999, queue, circleList, rectangleList, lineList, textList, corb, idPol, svgFile);
@@ -830,10 +832,10 @@ void pol(char *command, Queue queue, List circleList, List rectangleList, List l
                     break;
                 }
             }
+            
             lineCell = getNextCell(lineCell);
         }
 
-        
         while(textCell != NULL) {
             Item text = getCellValue(textCell);
 
@@ -844,7 +846,7 @@ void pol(char *command, Queue queue, List circleList, List rectangleList, List l
             double y = getYText(text);
 
 
-            if(idText == (id-999)) {
+            if(idText == (idItem-999)) {
                 if(a == 'm') {
                     x = strlen(value)/2;
                 } else if (a == 'f') {

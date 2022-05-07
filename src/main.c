@@ -35,6 +35,9 @@ int main(int argc, char **argv) {
     
     int sizePolygon = buildGeometricForm(svgFileClean, geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
 
+    insertFooterSVG(svgFileClean);
+    fclose(svgFileClean);
+    
     FILE *qryFile = loadFile(getQryPath(param));
 
     if(qryFile == NULL) {
@@ -52,9 +55,7 @@ int main(int argc, char **argv) {
     queryCommands(txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
 
     insertFooterSVG(svgFile);
-    insertFooterSVG(svgFileClean);
 
     fclose(svgFile);
-    fclose(svgFileClean);
     fclose(txtFile);
 }
