@@ -46,14 +46,14 @@ Item buildLine(char *command, Line vline) {
     line->color = (char*) malloc(sizeof(char*)+strlen(ptr)+1);
     strcpy(line->color, ptr);
     
-    printf("Id: %d\n", line->id);
+    /* printf("Id: %d\n", line->id);
     printf("initX: %.2lf\n", line->initX);
     printf("initY: %.2lf\n", line->initY);
     printf("finalX: %.2lf\n", line->finalX);
     printf("finalY: %.2lf\n", line->finalY);
     printf("Cor: %s\n", line->color);
 
-    printf("--- FIM buildLine ---\n");
+    printf("--- FIM buildLine ---\n"); */
 
     return line;
 }

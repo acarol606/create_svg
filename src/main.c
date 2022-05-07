@@ -26,10 +26,16 @@ int main(int argc, char **argv) {
     char *outputDir2 = getOutputDir(param, 's');
 
     FILE *svgFile = fopen(outputDir, "w");
-    FILE *svgFileClean = fopen(outputDir2, "w");
 
     if(svgFile == NULL) {
-        printf("Arquivo nulo!\n\n");
+        printf("Arquivo svg com qry nulo!\n\n");
+        return 0;
+    }
+
+    FILE *svgFileClean = fopen(outputDir2, "w");
+
+    if(svgFileClean == NULL) {
+        printf("Arquivo svg sem qry nulo!\n\n");
         return 0;
     }
     
@@ -37,18 +43,20 @@ int main(int argc, char **argv) {
 
     insertFooterSVG(svgFileClean);
     fclose(svgFileClean);
-    
+
     FILE *qryFile = loadFile(getQryPath(param));
 
+    printf("Qry path: %s\n\n", getQryPath(param));
+
     if(qryFile == NULL) {
-        printf("Arquivo nulo!\n\n");
+        printf("Arquivo qry nulo!\n\n");
         return 0;
     }
 
     FILE *txtFile = fopen(getTxtPath(param), "w");
 
     if(txtFile == NULL) {
-        printf("Arquivo nulo!\n\n");
+        printf("Arquivo txt nulo!\n\n");
         return 0;
     }
 

@@ -4,7 +4,7 @@ PROJECT_NAME = ted
 
 run: 
 	clear
-	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input/espiral-2v-ln-az -o /home/vfsilva/estudo/repositories/project/output -q 002.qry
+	./$(PROJECT_NAME) -e /home/vfsilva/estudo/repositories/project/input/casa-campo -o /home/vfsilva/estudo/repositories/project/output -q 002-dps.qry
 
 clear: 
 	rm *.o;

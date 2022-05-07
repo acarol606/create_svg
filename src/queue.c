@@ -11,6 +11,8 @@ struct queue {
 
 typedef struct queue LQueue;
 
+const int CONSTANT_QUEUE = 999;
+
 Queue createQueue(int capacity) { 
 	printf("-- Entrou createQueue --\n");
     LQueue *q = calloc(1, sizeof(LQueue));
@@ -27,7 +29,7 @@ Queue createQueue(int capacity) {
 bool hasNext(Queue queue, int index) {
 	LQueue *q = (LQueue*) queue;
 
-	if(q->totalItems==index+1) {
+	if(q->totalItems==index) {
 		return false;
 	}
 
@@ -46,13 +48,13 @@ bool isFinal(Queue queue, int index) {
 
 int getLast(Queue queue) {
 	LQueue *q = (LQueue*) queue;
-	return q->data[q->last];
+	return q->data[q->last] - CONSTANT_QUEUE;
 }
 
 int getData(Queue queue, int index) {
 	LQueue *q = (LQueue*) queue;
 
-	return q->data[index];
+	return q->data[index] - CONSTANT_QUEUE;
 }
 
 int getSizeQueue(Queue queue) {
@@ -70,7 +72,7 @@ void insertQueue(Queue queue, int value) {
     }
 
 	q->last++;
-	q->data[q->last] = value; // incrementa ultimo e insere
+	q->data[q->last] = value+CONSTANT_QUEUE; // incrementa ultimo e insere
 	q->totalItems++; // mais um item inserido
 }
 
@@ -79,7 +81,6 @@ void queueRemove(Queue queue) { // pega o item do comeÃ§o da fila
 	
 	int i;
 
-	printf("First data antes: %d\n\n\n", q->data[0]);
 	for (i = 1; i < q->totalItems; i++)	{
 		q->data[i-1] = q->data[i];
 	}

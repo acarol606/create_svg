@@ -54,7 +54,10 @@ void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List ll
         double finalY = getFinalYLine(line);
         char *color = getColorLine(line);
 
-
+        if (color[strlen(color)-1] == '\n') {
+            color[strlen(color)-1] = '\0';
+        }
+        
         createSVGLine(id, initX, initY, finalX, finalY, color, svgFile);
         createSVGLine(id, initX, initY, finalX, finalY, color, svgFileClean);
 
@@ -107,6 +110,7 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
 }
 
 void insertSVGAnchor(double x, double y, FILE *svg) {
+    printf("Anchor\n\n");
     fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"4\" stroke-width=\"2\" fill=\"red\" />", x, y);
     fflush(svg);
 }

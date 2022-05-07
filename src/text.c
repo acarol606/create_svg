@@ -21,7 +21,7 @@ Text createText() {
 }
 
 Item buildText(char *command, Text vtext) {
-    printf("--- ENTROU buildText --- command: %s\n", command);
+    printf("--- ENTROU buildText ---\n");
 
     GText *text = (GText*) vtext;
 
@@ -32,11 +32,11 @@ Item buildText(char *command, Text vtext) {
 
     text->id = atoi(ptr);
     ptr = strtok(NULL, " ");
-    printf("Id: %d\n", text->id);
+    // printf("Id: %d\n", text->id);
     
     text->x = strtod(ptr, &eptr);
     ptr = strtok(NULL, " ");
-    printf("X: %lf\n", text->x);
+    // printf("X: %lf\n", text->x);
 
     text->y = strtod(ptr, &eptr);
     ptr = strtok(NULL, " ");
