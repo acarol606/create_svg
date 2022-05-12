@@ -8,6 +8,7 @@
 typedef void *Rectangle;
 
 Item buildRectangle(char *command, Rectangle rectangle);
+Item buildRectangleParameters(Rectangle vrectangle, int id, char *corb, char *corp, double width, double height, double y, double x);
 Rectangle createRectangle();
 
 int getIdRectangle(Rectangle *rectangle);
@@ -17,5 +18,6 @@ double getXRectangle(Rectangle *rectangle);
 double getYRectangle(Rectangle *rectangle);
 double getWidthRectangle(Rectangle *rectangle);
 double getHeightRectangle(Rectangle *rectangle);
+void freeRectangle(Rectangle r);
 
 #endif

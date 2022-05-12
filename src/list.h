@@ -11,5 +11,8 @@ int getSizeList(List *list, char *type);
 Cell getFirst(List list);
 Cell getNextCell(Cell cell);
 Item getCellValue(Cell cell);
+void freeItem(Item item);
+void freeList(List l);
+List reallocSize(List l);
 
 #endif

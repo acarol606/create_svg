@@ -11,8 +11,6 @@ struct queue {
 
 typedef struct queue LQueue;
 
-const int CONSTANT_QUEUE = 999;
-
 Queue createQueue(int capacity) { 
 	printf("-- Entrou createQueue --\n");
     LQueue *q = calloc(1, sizeof(LQueue));
@@ -48,13 +46,13 @@ bool isFinal(Queue queue, int index) {
 
 int getLast(Queue queue) {
 	LQueue *q = (LQueue*) queue;
-	return q->data[q->last] - CONSTANT_QUEUE;
+	return q->data[q->last];
 }
 
 int getData(Queue queue, int index) {
 	LQueue *q = (LQueue*) queue;
 
-	return q->data[index] - CONSTANT_QUEUE;
+	return q->data[index];
 }
 
 int getSizeQueue(Queue queue) {
@@ -72,7 +70,7 @@ void insertQueue(Queue queue, int value) {
     }
 
 	q->last++;
-	q->data[q->last] = value+CONSTANT_QUEUE; // incrementa ultimo e insere
+	q->data[q->last] = value; // incrementa ultimo e insere
 	q->totalItems++; // mais um item inserido
 }
 

@@ -5,6 +5,7 @@
 #include "files.h"
 #include "list.h"
 #include "qry.h"
+#include "geo.h"
 
 int main(int argc, char **argv) {
 
@@ -12,6 +13,8 @@ int main(int argc, char **argv) {
     List rectangleList = createList();
     List lineList = createList();
     List textList = createList();
+    List anchorList = createList();
+    List selList = createList();
     
     Parameters param = createParameters(argc, argv);
     
@@ -22,16 +25,8 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    char *outputDir = getOutputDir(param, 'q');
     char *outputDir2 = getOutputDir(param, 's');
-
-    FILE *svgFile = fopen(outputDir, "w");
-
-    if(svgFile == NULL) {
-        printf("Arquivo svg com qry nulo!\n\n");
-        return 0;
-    }
-
+    
     FILE *svgFileClean = fopen(outputDir2, "w");
 
     if(svgFileClean == NULL) {
@@ -39,14 +34,11 @@ int main(int argc, char **argv) {
         return 0;
     }
     
-    int sizePolygon = buildGeometricForm(svgFileClean, geoFile, outputDir, circleList, rectangleList, lineList, textList, svgFile);
-
-    insertFooterSVG(svgFileClean);
+    int sizePolygon = buildGeometricForm(geoFile, circleList, rectangleList, lineList, textList);
+    buildSVG(svgFileClean, circleList, rectangleList , lineList, textList, anchorList, selList, "c");
     fclose(svgFileClean);
 
     FILE *qryFile = loadFile(getQryPath(param));
-
-    printf("Qry path: %s\n\n", getQryPath(param));
 
     if(qryFile == NULL) {
         printf("Arquivo qry nulo!\n\n");
@@ -59,10 +51,34 @@ int main(int argc, char **argv) {
         printf("Arquivo txt nulo!\n\n");
         return 0;
     }
+    
+    char *outputDir = getOutputDir(param, 'q');
 
-    queryCommands(txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList, svgFile);
+    FILE *svgFile = fopen(outputDir, "w");
 
-    insertFooterSVG(svgFile);
+    if(svgFile == NULL) {
+        printf("Arquivo svg com qry nulo!\n\n");
+        return 0;
+    }
+
+    if (getSizeList(circleList, "circulos") == 0) {
+        freeList(circleList);  
+        circleList = 0; 
+    }
+    
+    if (getSizeList(rectangleList, "retangulos") == 0) {
+        freeList(rectangleList);
+        rectangleList = 0;
+    }
+    
+    if (getSizeList(textList, "textos") == 0) {
+        freeList(textList);
+        textList = 0;
+    }
+
+    queryCommands(selList, anchorList, txtFile, qryFile, sizePolygon, circleList, rectangleList, lineList, textList);
+    getSizeList(lineList, "linhas");
+    buildSVG(svgFile, circleList, rectangleList , lineList, textList, anchorList, selList, "q");
 
     fclose(svgFile);
     fclose(txtFile);

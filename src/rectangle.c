@@ -19,6 +19,22 @@ Rectangle createRectangle() {
     return rectangle;
 }
 
+Item buildRectangleParameters(Rectangle vrectangle, int id, char *corb, char *corp, double width, double height, double y, double x) {
+    GRectangle *rectangle = (GRectangle*) vrectangle;
+
+    rectangle->id = id;
+    rectangle->x = x;
+    rectangle->y = y;
+    rectangle->width = width;
+    rectangle->height = height;
+    rectangle->corb = malloc(sizeof(char*)*strlen(corb));
+    strcpy(rectangle->corb, corb);
+    rectangle->corp = malloc(sizeof(char*)*strlen(corp));
+    strcpy(rectangle->corp, corp);
+
+    return rectangle;
+}
+
 Item buildRectangle(char *command, Rectangle vrectangle) {
     printf("--- ENTROU buildRectangle ---\n");
 
@@ -101,4 +117,12 @@ double getHeightRectangle(Rectangle *rectangle) {
     GRectangle *grectangle = (GRectangle*) rectangle;
 
     return grectangle->height;
+}
+
+void freeRectangle(Rectangle r) {
+    GRectangle *rectangle = (GRectangle*) r;
+
+    free(rectangle->corb);
+    free(rectangle->corp);
+    free(rectangle);
 }

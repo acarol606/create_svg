@@ -18,6 +18,20 @@ Line createLine() {
     return line;
 }
 
+Item buildLineParameters(Line vline, int id, double initX, double initY, double finalX, double finalY, char *corb) {
+    GLine *line = (GLine*) vline;
+
+    line->id = id;
+    line->initX = initX;
+    line->initY = initY;
+    line->finalX = finalX;
+    line->finalY = finalY;
+    line->color = malloc(sizeof(char*)*strlen(corb));
+    strcpy(line->color, corb);
+
+    return line;
+}
+
 Item buildLine(char *command, Line vline) {
     printf("--- ENTROU buildLine ---\n");
 
@@ -51,16 +65,15 @@ Item buildLine(char *command, Line vline) {
     printf("initY: %.2lf\n", line->initY);
     printf("finalX: %.2lf\n", line->finalX);
     printf("finalY: %.2lf\n", line->finalY);
-    printf("Cor: %s\n", line->color);
+    printf("Cor: %s\n", line->color); */
 
-    printf("--- FIM buildLine ---\n"); */
+    printf("--- FIM buildLine ---\n");
 
     return line;
 }
 
 int getIdLine(Line line) {
     GLine *gLine = (GLine*)line;
-
     return gLine->id;
 }
 
@@ -92,4 +105,11 @@ char *getColorLine(Line line) {
     GLine *gLine = (GLine*)line;
 
     return gLine->color;
+}
+
+void freeLine(Line l) {
+    GLine *line = l;
+
+    free(line->color);
+    free(line);
 }

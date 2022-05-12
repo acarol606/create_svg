@@ -8,6 +8,7 @@
 typedef void *Text;
 
 Item buildText(char *command, Text text);
+Item buildTextParameters(Text vtext, int id, double x, double y, char anchor, char *corb, char *corp, char *value);
 Text createText();
 
 int getIdText(Text text); 
@@ -17,5 +18,6 @@ double getYText(Text text);
 char *getValueText(Text text);
 char *getCorBText(Text text);
 char *getCorPText(Text text);
+void freeText(Text t);
 
 #endif

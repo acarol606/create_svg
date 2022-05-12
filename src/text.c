@@ -20,6 +20,22 @@ Text createText() {
     return text;
 }
 
+Item buildTextParameters(Text vtext, int id, double x, double y, char anchor, char *corb, char *corp, char *value) {
+    GText *text = (GText*) vtext;
+    text->id = id;
+    text->x = x;
+    text->y = y;
+    text->corb = malloc(sizeof(char*)*strlen(corb));
+    strcpy(text->corb, corb);
+    text->corp = malloc(sizeof(char*)*strlen(corp));
+    strcpy(text->corp, corp);
+    text->anchor = anchor;
+    text->value = malloc(sizeof(char*)*strlen(value));
+    strcpy(text->value, value);
+
+    return text;
+}
+
 Item buildText(char *command, Text vtext) {
     printf("--- ENTROU buildText ---\n");
 
@@ -117,4 +133,13 @@ char *getCorPText(Text text) {
     GText *gtext = (GText*) text;
 
     return gtext->corp;
+}
+
+void freeText(Text t) {
+    GText *text = t;
+
+    free(text->corb);
+    free(text->corp);
+    free(text->value);
+    free(text);
 }

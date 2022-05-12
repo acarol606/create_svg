@@ -1,8 +1,91 @@
 #include "svg.h"
 
-void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List llist , List tlist) {
+struct anchor {
+    int id;
+    int isSelection;
+    double x;
+    double y;
+};
+
+typedef struct anchor LAnchor;
+struct sel {
+    double x;
+    double y;
+    double width;
+    double height;
+};
+
+typedef struct sel LSel;
+
+Anchor startAnchor() {
+    LAnchor *a = malloc(sizeof(LAnchor*));
+    a->id = NULL;
+    return a;
+}
+
+int getAnchorId(Anchor anchor) {
+    LAnchor *a = anchor;
+
+    return a->id;
+}
+
+void setAnchorId(Anchor anchor, int id) {
+    LAnchor *a = anchor;
+
+    a->id = id;
+}
+
+void setAnchorX(Anchor anchor, double x) {
+    LAnchor *a = anchor;
+
+    a->x = x;
+}
+
+void setAnchorY(Anchor anchor, double y) {
+    LAnchor *a = anchor;
+
+    a->y = y;
+}
+
+void setIsSelection(Anchor anchor, int isSelection) {
+    LAnchor *a = anchor;
+    
+    a->isSelection = isSelection;
+}
+
+Item createSel() {
+    LSel *s = malloc(sizeof(LSel*));
+
+    return s;
+}
+
+void setSelX(Sel s, double x) {
+    LSel *sel = s;
+
+    sel->x = x;
+}
+
+void setSelY(Sel s, double y) {
+    LSel *sel = s;
+
+    sel->y = y;
+}
+
+void setSelWidth(Sel s, double width) {
+    LSel *sel = s;
+
+    sel->width = width;
+}
+
+void setSelHeight(Sel s, double height) {
+    LSel *sel = s;
+
+    sel->height = height;
+}
+
+void buildSVG(FILE *svgFile, List clist, List rlist ,List llist , List tlist, List anchorList, List selList, char *type) {
+    printf("--- Entrou buildSVG ---\n");
     insertHeaderSVG(svgFile);
-    insertHeaderSVG(svgFileClean);
 
     Cell circleCell = getFirst(clist);
     Cell rectangleCell = getFirst(rlist);
@@ -21,7 +104,6 @@ void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List ll
 
 
         createSVGCircle(id, corb, corp, radius, y, x, svgFile);
-        createSVGCircle(id, corb, corp, radius, y, x, svgFileClean);
 
         circleCell = getNextCell(circleCell);
     }
@@ -39,7 +121,6 @@ void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List ll
 
 
         createSVGRectangle(id, corb, corp, width, height, y, x, svgFile);
-        createSVGRectangle(id, corb, corp, width, height, y, x, svgFileClean);
 
         rectangleCell = getNextCell(rectangleCell);
     }
@@ -57,9 +138,8 @@ void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List ll
         if (color[strlen(color)-1] == '\n') {
             color[strlen(color)-1] = '\0';
         }
-        
+
         createSVGLine(id, initX, initY, finalX, finalY, color, svgFile);
-        createSVGLine(id, initX, initY, finalX, finalY, color, svgFileClean);
 
         lineCell = getNextCell(lineCell);
     }
@@ -78,14 +158,48 @@ void buildSVG(FILE *svgFileClean, FILE *svgFile, List clist, List rlist ,List ll
 
 
         createSVGText(id, x, y, archor, corb, corp, value, svgFile);
-        createSVGText(id, x, y, archor, corb, corp, value, svgFileClean);
 
         textCell = getNextCell(textCell);
     }
+
+    if (strcmp(type, "q")==0) {
+        Cell anchorCell = getFirst(anchorList);
+        Cell selCell = getFirst(selList);
+
+        while(anchorCell != NULL) {
+            LAnchor *anchor = (LAnchor*) getCellValue(anchorCell);
+
+            if (anchor->isSelection == 0) {
+                insertSVGAnchor(anchor->x, anchor->y, svgFile);
+            } else {
+                insertSVGAnchorSelect(anchor->x, anchor->y, svgFile);
+
+            }
+
+            anchorCell = getNextCell(anchorCell);
+        }
+        
+        while(selCell != NULL) {
+            LSel *sel = (LSel*) getCellValue(selCell);
+
+            createSVGRectangleSel(sel->width, sel->height, sel->y, sel->x, svgFile);
+            
+            selCell = getNextCell(selCell);
+        }
+    }
+    
+
+    insertFooterSVG(svgFile);
+    printf("--- Saiu buildSVG ---\n");
 }
 
 void insertHeaderSVG(FILE *svg) {
     fprintf(svg, "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">");
+    fflush(svg);
+}
+
+void createSVGRectangleSel(double width, double height, double y, double x, FILE *svg) {
+    fprintf(svg, "\n\t<rect style=\"fill:transparent;fill-opacity:0.5;stroke:red\" height=\"%lf\" width=\"%lf\" y=\"%lf\" x=\"%lf\" />", height, width, y, x);
     fflush(svg);
 }
 
@@ -110,8 +224,7 @@ void createSVGText(int id, double x, double y, char archor, char *corb, char *co
 }
 
 void insertSVGAnchor(double x, double y, FILE *svg) {
-    printf("Anchor\n\n");
-    fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"4\" stroke-width=\"2\" fill=\"red\" />", x, y);
+    fprintf(svg, "\n\t<circle cx=\"%lf\" cy=\"%lf\" r=\"4\" stroke-width=\"2\" fill=\"#FF0000\" />", x, y);
     fflush(svg);
 }
 
@@ -124,4 +237,14 @@ void insertFooterSVG(FILE *svg) {
     printf("--- Entrou no closeSVG ---\n\n");
     fprintf(svg, "\n</svg>");
     fflush(svg);
+}
+
+void freeAnchor(Anchor a) {
+    LAnchor *anchor = a;
+    free(anchor);
+}
+
+void freeSel(Sel s) {
+    LSel *sel = s;
+    free(sel);
 }

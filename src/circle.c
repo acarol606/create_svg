@@ -15,6 +15,21 @@ Circle createCircle() {
     return circle;
 }
 
+Item buildCircleParameters(Circle vcircle, int id, double x, double y, double radius, char *corb, char *corp) {
+     GCircle *circle = (GCircle*) vcircle;
+
+    circle->id = id;
+    circle->x = x;
+    circle->y = y;
+    circle->radius = radius;
+    circle->corb = malloc(sizeof(char*)*strlen(corb));
+    strcpy(circle->corb, corb);
+    circle->corp = malloc(sizeof(char*)*strlen(corp));
+    strcpy(circle->corp, corp);
+
+    return circle;
+}
+
 Item buildCircle(char *command, Circle vcircle) {
     char *ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
@@ -94,4 +109,12 @@ char *getCorPCircle(Circle circle) {
     GCircle *gcircle = (GCircle*) circle;
 
     return gcircle->corp;
+}
+
+void freeCircle(Circle c) {
+    GCircle *circle = (GCircle*) c;
+
+    free(circle->corb);
+    free(circle->corp);
+    free(circle);
 }
