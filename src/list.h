@@ -13,6 +13,6 @@ Cell getNextCell(Cell cell);
 Item getCellValue(Cell cell);
 void freeItem(Item item);
 void freeList(List l);
-List reallocSize(List l);
+void removeElement(List l, Item i);
 
 #endif

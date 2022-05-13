@@ -24,11 +24,30 @@ List createList() {
     return list;
 }
 
-List reallocSize(List l) {
-    ListL *list = (ListL *) realloc((ListL*) l ,1*sizeof(ListL));
-    list->init = NULL;
-    list->final = NULL;
-    return list;
+
+
+void removeElement(List l, Item i) {
+
+    ListL* list = (ListL*) l;
+    Data* cell = (Data*) i;
+    Data* auxPrev = cell->prev;
+
+    if (cell == list->init) {
+
+        list->init = NULL;
+
+    } else if (cell == list->final) {
+
+        list->final = NULL;
+
+    } else {
+
+        auxPrev->next = cell->next; // 1 0 8 // 1 8
+        cell->next->prev = auxPrev;
+
+    }
+
+    free(cell);
 }
 
 Data *getPreviusData(ListL *list) {

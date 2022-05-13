@@ -14,7 +14,7 @@ void dps(FILE* textFile, char* command, Queue queue, List circleList, List recta
     {
         printf("i: %d\n", i);
     }
-    
+
     char* ptr = strtok(command, " ");
     ptr = strtok(NULL, " ");
 
@@ -43,7 +43,7 @@ void dps(FILE* textFile, char* command, Queue queue, List circleList, List recta
 
     int index = 0;
 
-    for(index=0; index<indexSel; index++) {
+    for (index = 0; index < indexSel; index++) {
         int idItem = selectedsIds[index];
 
         Cell circleCell = getFirst(circleList);
@@ -111,7 +111,7 @@ void dps(FILE* textFile, char* command, Queue queue, List circleList, List recta
             rectangleCell = getNextCell(rectangleCell);
         }
 
-            
+
         while (lineCell != NULL) {
             Item line = getCellValue(lineCell);
 
@@ -496,12 +496,12 @@ int sel(FILE* txtFile, char* command, List anchorList, List selList, List circle
 
     while (rectangleCell != NULL) {
         Item rectangle = getCellValue(rectangleCell);
-        
+
         if (rectangle == NULL)
         {
             break;
         }
-        
+
 
         double x = getXRectangle(rectangle);
         double y = getYRectangle(rectangle);
@@ -842,24 +842,24 @@ void pol(char* command, Queue queue, List circleList, List rectangleList, List l
 bool alreadyExists(List anchorList, int id) {
     Cell anchorCell = getFirst(anchorList);
 
-    while(anchorCell != NULL) {
+    while (anchorCell != NULL) {
         Anchor anchor = getCellValue(anchorCell);
         int idAnchor = getAnchorId(anchor);
 
-        if (idAnchor==id) {
+        if (idAnchor == id) {
             return true;
         }
 
         anchorCell = getNextCell(anchorCell);
     }
-    
+
     return false;
 }
 
 void queueToList(Queue queue, List anchorList, List circleList, List rectangleList, List lineList, List textList) {
     int index = 0;
     while (hasNext(queue, index)) {
-        
+
         Cell circleCell = getFirst(circleList);
         Cell rectangleCell = getFirst(rectangleList);
         Cell lineCell = getFirst(lineList);
@@ -870,7 +870,7 @@ void queueToList(Queue queue, List anchorList, List circleList, List rectangleLi
             Item circle = getCellValue(circleCell);
             int id = getIdCircle(circle);
 
-            if (id == idItem && alreadyExists(anchorList, id)==0) {
+            if (id == idItem && alreadyExists(anchorList, id) == 0) {
                 double x = getXCircle(circle);
                 double y = getYCircle(circle);
 
@@ -889,7 +889,7 @@ void queueToList(Queue queue, List anchorList, List circleList, List rectangleLi
             Item rectangle = getCellValue(rectangleCell);
             int id = getIdRectangle(rectangle);
 
-            if (id == idItem && alreadyExists(anchorList, id)==0) {
+            if (id == idItem && alreadyExists(anchorList, id) == 0) {
                 double x = getXRectangle(rectangle);
                 double y = getYRectangle(rectangle);
 
@@ -908,7 +908,7 @@ void queueToList(Queue queue, List anchorList, List circleList, List rectangleLi
             Item line = getCellValue(lineCell);
             int id = getIdLine(line);
 
-            if (id == idItem && alreadyExists(anchorList, id)==0) {
+            if (id == idItem && alreadyExists(anchorList, id) == 0) {
                 double x = getInitXLine(line);
                 double y = getInitYLine(line);
 
@@ -927,20 +927,21 @@ void queueToList(Queue queue, List anchorList, List circleList, List rectangleLi
             Item text = getCellValue(textCell);
             int id = getIdText(text);
 
-            if (id == idItem && alreadyExists(anchorList, id)==0) {
+            if (id == idItem && alreadyExists(anchorList, id) == 0) {
                 double x = getXText(text);
                 double y = getYText(text);
                 char anc = getAnchorText(text);
-                char *value = getValueText(text);
+                char* value = getValueText(text);
                 printf("Ancora: %c - X: %lf - Y: %lf\n", anc, x, y);
 
                 if (anc == 'm')
                 {
                     x = strlen(value) / 2;
-                } else if (anc == 'f') {
+                }
+                else if (anc == 'f') {
                     x = strlen(value);
                 }
-                
+
 
                 Anchor a = startAnchor();
                 setAnchorId(a, idItem);
@@ -957,6 +958,130 @@ void queueToList(Queue queue, List anchorList, List circleList, List rectangleLi
     }
 
     getSizeList(anchorList, "ancoras convertidas");
+}
+
+void dels(FILE* textFile, List circleList, List rectangleList, List lineList, List textList, int* idsSel, int capacity) {
+    printf("--- Entrou dels --- capacity: %d\n", capacity);
+    int indexIds;
+
+    for (indexIds = 0; indexIds < capacity; indexIds++) {
+        Cell circleCell = getFirst(circleList);
+        Cell rectangleCell = getFirst(rectangleList);
+        Cell lineCell = getFirst(lineList);
+        Cell textCell = getFirst(textList);
+
+        printf("Inicio for --- capacity: %d -- index: %d\n\n", capacity, indexIds);
+
+        while (circleCell != NULL) {
+            Item circle = getCellValue(circleCell);
+
+            double x = getXCircle(circle);
+            double y = getYCircle(circle);
+            int id = getIdCircle(circle);
+            char* corb = getCorBCircle(circle);
+            char* corp = getCorPCircle(circle);
+            double radius = getRadiusCircle(circle);
+
+            if (idsSel[indexIds] == id) {
+                fprintf(textFile, "\ncircle\n");
+                fprintf(textFile, "x: %lf\n", x);
+                fprintf(textFile, "y: %lf\n", y);
+                fprintf(textFile, "radius: %lf\n", radius);
+                fprintf(textFile, "corb: %s\n", corb);
+                fprintf(textFile, "corp: %s\n\n", corp);
+                removeElement(circleList, circleCell);
+                idsSel[indexIds] = '\0';
+                break;
+            }
+
+            circleCell = getNextCell(circleCell);
+        }
+
+        while (rectangleCell != NULL) {
+            Item rectangle = getCellValue(rectangleCell);
+
+            double x = getXRectangle(rectangle);
+            double y = getYRectangle(rectangle);
+            double widthRec = getWidthRectangle(rectangle);
+            double heightRec = getHeightRectangle(rectangle);
+            int id = getIdRectangle(rectangle);
+            char* corb = getCorBRectangle(rectangle);
+            char* corp = getCorPRectangle(rectangle);
+
+            if (idsSel[indexIds] == id) {
+                fprintf(textFile, "\nrectangle\n");
+                fprintf(textFile, "id: %d\n", id);
+                fprintf(textFile, "x: %lf\n", x);
+                fprintf(textFile, "y: %lf\n", y);
+                fprintf(textFile, "width: %lf\n", widthRec);
+                fprintf(textFile, "height: %lf\n", heightRec);
+                fprintf(textFile, "corb: %s\n", corb);
+                fprintf(textFile, "corp: %s\n\n", corp);
+                removeElement(rectangleList, rectangleCell);
+                idsSel[indexIds] = '\0';
+                break;
+            }
+
+            rectangleCell = getNextCell(rectangleCell);
+        }
+
+        while (lineCell != NULL) {
+            Item line = getCellValue(lineCell);
+            double initX = getInitXLine(line);
+            double initY = getInitYLine(line);
+            double finalX = getFinalXLine(line);
+            double finalY = getFinalYLine(line);
+            int id = getIdLine(line);
+            char* corb = getColorLine(line);
+
+            if (idsSel[indexIds] == id) {
+                printf("aqui\n\n");
+                fprintf(textFile, "\nline\n");
+                fprintf(textFile, "id: %d\n", id);
+                fprintf(textFile, "initX: %lf\n", initX);
+                fprintf(textFile, "initY: %lf\n", initY);
+                fprintf(textFile, "finalX: %lf\n", finalX);
+                fprintf(textFile, "finalY: %lf\n", finalY);
+                fprintf(textFile, "color: %s\n\n", corb);
+                removeElement(lineList, lineCell);
+                idsSel[indexIds] = '\0';
+                printf("Removeu\n\n");
+                break;
+            }
+
+            lineCell = getNextCell(lineCell);
+        }
+
+        while (textCell != NULL) {
+            Item text = getCellValue(textCell);
+
+            double x = getXText(text);
+            double y = getYText(text);
+            char anchor = getAnchorText(text);
+            char* value = getValueText(text);
+            char* corb = getCorBText(text);
+            char* corp = getCorPText(text);
+            int id = getIdText(text);
+
+
+            if (idsSel[indexIds] == id) {
+
+                fprintf(textFile, "text\n");
+                fprintf(textFile, "x: %lf\n", x);
+                fprintf(textFile, "y: %lf\n", y);
+                fprintf(textFile, "ancora: %c\n", anchor);
+                fprintf(textFile, "corb: %s\n", corb);
+                fprintf(textFile, "corp: %s\n", corp);
+                fprintf(textFile, "valor: %s\n\n", value);
+                removeElement(textList, textCell);
+                idsSel[indexIds] = '\0';
+                break;
+            }
+
+            textCell = getNextCell(textCell);
+        }
+        printf("Final for\n\n");
+    }
 }
 
 void queryCommands(List selList, List anchorList, FILE* txtFile, FILE* qryFile, int capacity, List circleList, List rectangleList, List lineList, List textList) {
@@ -1014,6 +1139,9 @@ void queryCommands(List selList, List anchorList, FILE* txtFile, FILE* qryFile, 
         }
         else if (strcmp(ptr, "dps") == 0) {
             dps(txtFile, str, queue, circleList, rectangleList, lineList, textList, selectedsIds, indexSel);
+        }
+        else if (strcmp(ptr, "dels")==0) {
+            dels(txtFile, circleList, rectangleList, lineList, textList, selectedsIds, indexSel);
         }
     }
 
